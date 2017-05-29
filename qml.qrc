@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MainForm.ui.qml</file>
+        <file>MineButton.qml</file>
+        <file>MineButtonForm.ui.qml</file>
+        <file>ButtonGrid.qml</file>
+        <file>ButtonRowCol.qml</file>
+        <file>main_copy.qml</file>
+        <file>GameArea.qml</file>
+        <file>MineButton_copy.qml</file>
+        <file>My_Menu.qml</file>
+    </qresource>
+</RCC>
