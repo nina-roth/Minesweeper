@@ -145,8 +145,8 @@ void GameLogic::assignBombs(){
     }
 
     std::set<unsigned> s( bombIndex.begin(), bombIndex.end() );
-    //assert(s.size() == nBombs); //assert uniqueness of random values
-    std::cout << "Sanity check! "<< s.size() << " should be equal to: "<< nBombs << std::endl;
+    assert(s.size() == nBombs); //assert uniqueness of random values
+    //std::cout << "Sanity check! "<< s.size() << " should be equal to: "<< nBombs << std::endl;
     for(auto &i: bombIndex){ isBombArray[i] = true;}// std::cout << i << std::endl;}
 
 }

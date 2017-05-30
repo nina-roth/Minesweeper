@@ -22,16 +22,21 @@ Rectangle {
                                MineButton { id: mb
                                             height: cell_height
                                             cell_index: index
-                                            //cell_i: index/grid.rows
-                                            //cell_j: index - (cell_i*grid.rows)
-                                            //text: cell_i + "." + cell_j
                                             isBomb: logic.isBomb(cell_index)
                                             bombNeighbors: logic.bombNeighbors(cell_index)
-                                            //text: cell_index
-                                            //right_neighb: -1
-                                            //top_neighb: -1
-                                            //bottom_neighb: -1
+                                            cell_x: index/n_rows
+                                            cell_y: index - (cell_x * n_rows)
                                }
+                    }
+                }
+
+                function neighborReveal(m, n){
+                    for(var x = m - 1; x< m + 2; x++){
+                        for(var y = n - 1; y< n + 2; y++){
+                            if(x>=0 && x< n_rows && y>=0 && y< n_rows){
+                                    rep.itemAt(x*n_rows+y).reveal();
+                            }
+                        }
                     }
                 }
 

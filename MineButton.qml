@@ -12,12 +12,8 @@ Rectangle {
                 border.width: 2
                 color: "grey"
                 property int cell_index
-                property int cell_i
-                property int cell_j
-                property int left_neighb: -1
-                property int right_neighb: -1
-                property int top_neighb: -1
-                property int bottom_neighb: -1
+                property int cell_x
+                property int cell_y
                 property alias text: text1.text
                 property bool isBomb: false
                 property int bombNeighbors: 0
@@ -36,6 +32,7 @@ Rectangle {
 
                 MouseArea { id: mouseArea; anchors.fill: parent
                             acceptedButtons: Qt.LeftButton | Qt.RightButton
+                            signal revealEmpty//( string ME )
                             onClicked: {
                                 if (mouse.button == Qt.LeftButton){
                                     if (stateGroup.state == ""){
@@ -46,6 +43,9 @@ Rectangle {
                                         else{
                                             stateGroup.state = "LeftClickReveal"
                                             logic.incReveal();
+                                            if(bombNeighbors == 0){
+                                                neighborReveal(cell_x, cell_y);
+                                             }
                                         }
                                     }
                                     else {//do nothing
@@ -65,6 +65,16 @@ Rectangle {
 
                             }
 
+                            onRevealEmpty: { //how can we just call a "MouseArea Leftclick" here?
+                                if (stateGroup.state == ""){
+                                    stateGroup.state = "LeftClickReveal"
+                                    logic.incReveal();
+                                    if(bombNeighbors == 0){
+                                        neighborReveal(cell_x, cell_y);
+                                    }
+                                }
+                            }
+
                 }
 
                 Text {
@@ -72,10 +82,13 @@ Rectangle {
                     visible: true
                     anchors.fill: parent
                     color: "black"
-                    //text: "?"
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
 
+                }
+
+                function reveal(){
+                    mouseArea.revealEmpty();
                 }
 
                 function cellReset(){
@@ -90,9 +103,6 @@ Rectangle {
                     stateGroup.state = ""
                     isBomb = logic.isBomb(index);
                     bombNeighbors = logic.bombNeighbors(index);
-                    //print(index);
-                    //print(isBomb);
-                    //print(bombNeighbors);
                 }
 
     StateGroup {
@@ -105,7 +115,6 @@ Rectangle {
                             target: text1
                             visible: true
                             text: bombNeighbors
-                            //color: "green"
                         }
                     },
                     State {
