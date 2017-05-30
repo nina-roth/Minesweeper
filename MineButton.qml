@@ -20,7 +20,7 @@ Rectangle {
                 property int bottom_neighb: -1
                 property alias text: text1.text
                 property bool isBomb: false
-                property int bombNeighbors
+                property int bombNeighbors: 0
                 signal lclicked //needed?
                 signal rclicked //needed?
                 signal gameOver
@@ -78,6 +78,22 @@ Rectangle {
 
                 }
 
+                function cellReset(){
+                    text = ""
+                    stateGroup.state = ""
+                    isBomb = false
+                    bombNeighbors = 0
+                }
+
+                function cellSetup(index){
+                    text = ""
+                    stateGroup.state = ""
+                    isBomb = logic.isBomb(index);
+                    bombNeighbors = logic.bombNeighbors(index);
+                    //print(index);
+                    //print(isBomb);
+                    //print(bombNeighbors);
+                }
 
     StateGroup {
                 id: stateGroup

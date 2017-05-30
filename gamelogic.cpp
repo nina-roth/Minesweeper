@@ -136,6 +136,7 @@ void GameLogic::assignBombs(){
     srand(time(NULL));
     unsigned in = 0, im = 0;
     isBombArray = std::vector<bool> (total_size, false);
+    bombIndex.resize(0);
 
     for (in = 0; in < total_size && im < nBombs; ++in) {
         unsigned rn = total_size - in;
@@ -146,7 +147,7 @@ void GameLogic::assignBombs(){
     std::set<unsigned> s( bombIndex.begin(), bombIndex.end() );
     //assert(s.size() == nBombs); //assert uniqueness of random values
     std::cout << "Sanity check! "<< s.size() << " should be equal to: "<< nBombs << std::endl;
-    for(auto &i: bombIndex){ isBombArray[i] = true; std::cout << i << std::endl;}
+    for(auto &i: bombIndex){ isBombArray[i] = true;}// std::cout << i << std::endl;}
 
 }
 
@@ -156,11 +157,16 @@ void GameLogic::setgameState(bool i)
     emit gameStateChanged(gameStarted);
 }
 
-void GameLogic::reset() //not done yet
+void GameLogic::reset()
 {
-    nRows = 0;
     nRevealed = 0;
-    emit nRowsChanged(nRows);
+    emit gameReset();
+}
+
+void GameLogic::setup()
+{
+    nRevealed = 0;
+    emit gameSetup();
 }
 
 bool GameLogic::gameOver(){
@@ -180,7 +186,6 @@ void GameLogic::incReveal(){
 void GameLogic::victoryCheck(){
 
     if(nRevealed == total_size - nBombs ){
-
         emit won();
     }
 
@@ -188,8 +193,10 @@ void GameLogic::victoryCheck(){
 
 void GameLogic::startGame(){
 
-    //gameCanvas = canvas;
     assignBombs();
+    //std::cout << isBombArray[0] << " "
+    //for(auto &i: bombIndex){ isBombArray[i] = true; std::cout << i << std::endl;}
+    setup();
 
     std::cout << "Game started! " << std::endl;
     gameStarted = true;
@@ -200,6 +207,8 @@ void GameLogic::setDifficulty(unsigned n, unsigned b){
 
     setRows(n);
     setBombs(b);
+    //reset();
+    //emit gameReset();
 
 }
 

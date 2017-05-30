@@ -11,10 +11,9 @@ Item {
     anchors.leftMargin: 15
     anchors.rightMargin: 20
 
-    //onChildrenChanged: gameCanvas.update()
-
+    signal gridReset
+    signal gridSetup
     property int rows
-
 
     ButtonGrid{
         id: mygrid
@@ -22,5 +21,8 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
     }
+
+    onGridReset: mygrid.gridReset();
+    onGridSetup: mygrid.gridSetup();
 
 }

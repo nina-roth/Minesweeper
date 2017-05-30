@@ -35,4 +35,19 @@ Rectangle {
                     }
                 }
 
+                function gridReset(){
+                    for (var m = 0; m < n_rows; m++) {
+                        for (var n = 0; n < n_rows; n++) {
+                           rep.itemAt(m*n_rows+n).cellReset();
+                        }
+                    }
+                }
+
+                function gridSetup(){
+                    for (var m = 0; m < n_rows; m++) {
+                        for (var n = 0; n < n_rows; n++) {
+                           rep.itemAt(m*n_rows+n).cellSetup(m*n_rows+n);
+                        }
+                    }
+                }
 }

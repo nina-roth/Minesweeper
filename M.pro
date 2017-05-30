@@ -5,7 +5,8 @@ QT += qml quick widgets
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    gamelogic.cpp
+    gamelogic.cpp \
+    cell.cpp
 
 RESOURCES += qml.qrc
 
@@ -34,4 +35,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 FORMS +=
 
 HEADERS += \
-    gamelogic.h
+    gamelogic.h \
+    cell.h

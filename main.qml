@@ -11,14 +11,22 @@ ApplicationWindow {
     height: width
     title: qsTr("Minesweeper")
 
-    GameLogic {
-        id: logic
-        onWon: messageDialog.show("You've won!")
-    }
-
     GameArea {
         id: area
         rows: logic.getNRows
+    }
+
+    GameLogic {
+        id: logic
+        onWon: messageDialog.show("You've won!")
+        onGameReset: {
+            console.log("Reset action triggered");
+            area.gridReset();
+        }
+        onGameSetup: {
+            console.log("Setup action triggered");
+            area.gridSetup();
+        }
     }
 
     My_Menu {}

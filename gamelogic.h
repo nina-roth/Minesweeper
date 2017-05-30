@@ -23,6 +23,7 @@ public:
     virtual ~GameLogic();
 
     Q_INVOKABLE void reset();
+    Q_INVOKABLE void setup();
     Q_INVOKABLE bool gameOver();
 
     Q_INVOKABLE unsigned getNRows();
@@ -57,6 +58,8 @@ signals:
     void gameStateChanged(bool);
     void won();
     void lost();
+    void gameReset();
+    void gameSetup();
 
 private:
     //unsigned nRows;
