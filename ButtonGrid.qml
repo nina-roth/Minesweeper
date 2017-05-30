@@ -34,10 +34,30 @@ Rectangle {
                     for(var x = m - 1; x< m + 2; x++){
                         for(var y = n - 1; y< n + 2; y++){
                             if(x>=0 && x< n_rows && y>=0 && y< n_rows){
-                                    rep.itemAt(x*n_rows+y).reveal();
+                                    rep.itemAt(x*n_rows+y).reveal("Cell");
                             }
                         }
                     }
+                }
+
+                function revealBombs(){
+                    for (var m = 0; m < n_rows; m++) {
+                        for (var n = 0; n < n_rows; n++) {
+                            if(logic.isBomb(m*n_rows+n) == true){
+                                rep.itemAt(m*n_rows+n).reveal("Bomb");
+                            }
+                        }
+                     }
+                }
+
+                function revealCells(){
+                    for (var m = 0; m < n_rows; m++) {
+                        for (var n = 0; n < n_rows; n++) {
+                            if(logic.isBomb(m*n_rows+n) == false){
+                                rep.itemAt(m*n_rows+n).reveal("Cell");
+                            }
+                        }
+                     }
                 }
 
                 function gridReset(){

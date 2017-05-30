@@ -13,6 +13,8 @@ Item {
 
     signal gridReset
     signal gridSetup
+    signal gridBombReveal
+    signal gridCellReveal
     property int rows
 
     ButtonGrid{
@@ -24,5 +26,7 @@ Item {
 
     onGridReset: mygrid.gridReset();
     onGridSetup: mygrid.gridSetup();
+    onGridBombReveal: mygrid.revealBombs();
+    onGridCellReveal: mygrid.revealCells();
 
 }

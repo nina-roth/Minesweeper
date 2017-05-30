@@ -4,8 +4,8 @@ GameLogic::GameLogic(QObject *parent) : QObject(parent){
     nRows = 9;
     nBombs = 10;
     gameStarted = false;
-    total_size = nRows * nRows;
-    nRevealed = 0;
+    //total_size = nRows * nRows;
+    //nRevealed = 0;
     startGame();
 }
 
@@ -133,8 +133,8 @@ void GameLogic::assignBombs()
     }
 
     std::set<unsigned> s( bombIndex.begin(), bombIndex.end() );
-    assert(s.size() == nBombs); //assert uniqueness of random values
-    //std::cout << "Sanity check! "<< s.size() << " should be equal to: "<< nBombs << std::endl;
+    //assert(s.size() == nBombs); //assert uniqueness of random values
+    std::cout << "Sanity check! "<< s.size() << " should be equal to: "<< nBombs << std::endl;
     for(auto &i: bombIndex){ isBombArray[i] = true;}
 }
 
@@ -159,6 +159,7 @@ std::string GameLogic::getColor(unsigned i){
 
 bool GameLogic::gameOver(){
     emit lost();
+    gameStarted = false;
     return true;
 }
 
@@ -174,6 +175,8 @@ void GameLogic::victoryCheck(){
 }
 
 void GameLogic::startGame(){
+    nRevealed = 0;
+    total_size = nRows * nRows;
     assignBombs();
     setup();
     gameStarted = true;

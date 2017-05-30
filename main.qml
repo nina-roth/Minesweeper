@@ -18,14 +18,25 @@ ApplicationWindow {
 
     GameLogic {
         id: logic
-        onWon: messageDialog.show("You've won!")
+        onWon: {
+            messageDialog.show("You've won!")
+            area.gridCellReveal();
+            area.enabled = false
+        }
         onGameReset: {
             console.log("Reset action triggered");
             area.gridReset();
+            area.enabled = true
         }
         onGameSetup: {
             console.log("Setup action triggered");
             area.gridSetup();
+            area.enabled = true
+        }
+        onLost: {
+            messageDialog.show("You've lost!")
+            area.gridBombReveal();
+            area.enabled = false
         }
     }
 

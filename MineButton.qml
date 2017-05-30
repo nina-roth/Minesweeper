@@ -8,8 +8,8 @@ Rectangle {
                 id: rect
                 height: 50
                 width: height
-                border.color: "black"
-                border.width: 2
+                border.color: "darkgrey"
+                border.width: 1
                 color: "lightgrey"
                 property int cell_index
                 property int cell_x
@@ -24,9 +24,9 @@ Rectangle {
                 signal gameOver
                 //signal gameWon
 
-                onGameOver: { console.log("Game Over!")
-                              messageDialog.show("Game Over!")
-                }
+//                onGameOver: { console.log("Game Over!")
+//                              messageDialog.show("Game Over!")
+//                }
 
 //                onGameWon: { console.log("You've won!")
 //                              messageDialog.show("You've won!")
@@ -34,13 +34,14 @@ Rectangle {
 
                 MouseArea { id: mouseArea; anchors.fill: parent
                             acceptedButtons: Qt.LeftButton | Qt.RightButton
-                            signal revealEmpty//( string ME )
+                            signal revealEmpty
+                            signal revealBombs
                             onClicked: {
                                 if (mouse.button == Qt.LeftButton){
                                     if (stateGroup.state == ""){
                                         if(isBomb){
                                             stateGroup.state = "LeftClickBomb"
-                                            rect.gameOver()
+                                            logic.gameOver();
                                         }
                                         else{
                                             stateGroup.state = "LeftClickReveal"
@@ -51,7 +52,8 @@ Rectangle {
                                             }
                                         }
                                     }
-                                    else {//do nothing
+                                    else {
+                                        //do nothing
                                     }
                                 }
                                 if (mouse.button == Qt.RightButton){
@@ -72,11 +74,15 @@ Rectangle {
                                 if (stateGroup.state == ""){
                                     stateGroup.state = "LeftClickReveal"
                                     textset(bombNeighbors);
-                                    logic.incReveal();
+                                    logic.incReveal("Cell");
                                     if(bombNeighbors == 0){
                                         neighborReveal(cell_x, cell_y);
                                     }
                                 }
+                            }
+
+                            onRevealBombs: { //how can we just call a "MouseArea LeftBombclick" here?
+                                stateGroup.state = "LeftClickBomb"
                             }
 
                 }
@@ -101,8 +107,14 @@ Rectangle {
                 }
 
 
-                function reveal(){
-                    mouseArea.revealEmpty();
+                function reveal(mode){
+                    if(mode == "Cell"){
+                        mouseArea.revealEmpty();
+                    }
+                    else if (mode == "Bomb"){
+                        mouseArea.revealBombs();
+                    }
+                    else {} //do nothing
                 }
 
                 function cellReset(){

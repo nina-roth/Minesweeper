@@ -62,6 +62,8 @@ signals:
     void lost();
     void gameReset();
     void gameSetup();
+    void revealBombs();
+    void revealCells();
 
 private:
     std::vector<bool> isBombArray;
