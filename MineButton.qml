@@ -36,6 +36,7 @@ Rectangle {
                             acceptedButtons: Qt.LeftButton | Qt.RightButton
                             signal revealEmpty
                             signal revealBombs
+                            signal revealFlags
                             onClicked: {
                                 if (mouse.button == Qt.LeftButton){
                                     if (stateGroup.state == ""){
@@ -85,6 +86,13 @@ Rectangle {
                                 stateGroup.state = "LeftClickBomb"
                             }
 
+                            onRevealFlags: { //how can we just call a "MouseArea RightClick" here?
+                                if(stateGroup.state == ""){
+                                    stateGroup.state = "RightClick"
+                                }
+                                else {} //do nothing
+                            }
+
                 }
 
                 Text {
@@ -113,6 +121,9 @@ Rectangle {
                     }
                     else if (mode == "Bomb"){
                         mouseArea.revealBombs();
+                    }
+                    else if (mode == "Flag") {
+                        mouseArea.revealFlags();
                     }
                     else {} //do nothing
                 }

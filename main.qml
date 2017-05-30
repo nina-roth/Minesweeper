@@ -21,6 +21,7 @@ ApplicationWindow {
         onWon: {
             messageDialog.show("You've won!")
             area.gridCellReveal();
+            area.gridFlagReveal();
             area.enabled = false
         }
         onGameReset: {

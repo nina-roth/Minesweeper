@@ -15,6 +15,7 @@ Item {
     signal gridSetup
     signal gridBombReveal
     signal gridCellReveal
+    signal gridFlagReveal
     property int rows
 
     ButtonGrid{
@@ -28,5 +29,6 @@ Item {
     onGridSetup: mygrid.gridSetup();
     onGridBombReveal: mygrid.revealBombs();
     onGridCellReveal: mygrid.revealCells();
+    onGridFlagReveal: mygrid.revealFlags();
 
 }

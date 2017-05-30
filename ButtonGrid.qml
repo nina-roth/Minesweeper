@@ -54,7 +54,17 @@ Rectangle {
                     for (var m = 0; m < n_rows; m++) {
                         for (var n = 0; n < n_rows; n++) {
                             if(logic.isBomb(m*n_rows+n) == false){
-                                rep.itemAt(m*n_rows+n).reveal("Cell");
+                                rep.itemAt(m*n_rows+n).reveal("Cells");
+                            }
+                        }
+                     }
+                }
+
+                function revealFlags(){
+                    for (var m = 0; m < n_rows; m++) {
+                        for (var n = 0; n < n_rows; n++) {
+                            if(logic.isBomb(m*n_rows+n) == true){
+                                rep.itemAt(m*n_rows+n).reveal("Flag");
                             }
                         }
                      }
