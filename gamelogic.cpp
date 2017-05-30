@@ -153,6 +153,10 @@ void GameLogic::setup(){
     emit gameSetup();
 }
 
+std::string GameLogic::getColor(unsigned i){
+    return color_array[i];
+}
+
 bool GameLogic::gameOver(){
     emit lost();
     return true;
@@ -179,6 +183,7 @@ void GameLogic::setDifficulty(unsigned n, unsigned b){
     setRows(n);
     setBombs(b);
 }
+
 
 bool GameLogic::gameState(){
     return gameStarted;

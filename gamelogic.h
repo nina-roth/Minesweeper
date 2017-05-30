@@ -34,7 +34,6 @@ public:
     Q_INVOKABLE void setgameState(bool i);
 
     Q_INVOKABLE void assignBombs();
-    //Q_INVOKABLE void assignNumbers();
     Q_INVOKABLE bool isBomb(int index);
     Q_INVOKABLE unsigned indexFromIJ(unsigned i, unsigned j);
     Q_INVOKABLE unsigned bombNeighbors(unsigned index);
@@ -45,6 +44,9 @@ public:
     unsigned nRows;
     unsigned nBombs;
     unsigned nRevealed;
+
+    std::vector<std::string> color_array = std::vector<std::string> (9, "red");
+    Q_INVOKABLE std::string getColor(unsigned i);
 
     void victoryCheck();
     Q_INVOKABLE void incReveal();

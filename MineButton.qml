@@ -10,13 +10,15 @@ Rectangle {
                 width: height
                 border.color: "black"
                 border.width: 2
-                color: "grey"
+                color: "lightgrey"
                 property int cell_index
                 property int cell_x
                 property int cell_y
                 property alias text: text1.text
+                property alias text_color: text1.color
                 property bool isBomb: false
                 property int bombNeighbors: 0
+                property variant color_array: ["black", "blue", "green", "red", "darkblue", "darkred", "cyan", "black", "grey"]
                 signal lclicked //needed?
                 signal rclicked //needed?
                 signal gameOver
@@ -42,10 +44,11 @@ Rectangle {
                                         }
                                         else{
                                             stateGroup.state = "LeftClickReveal"
+                                            textset(bombNeighbors);
                                             logic.incReveal();
                                             if(bombNeighbors == 0){
                                                 neighborReveal(cell_x, cell_y);
-                                             }
+                                            }
                                         }
                                     }
                                     else {//do nothing
@@ -68,6 +71,7 @@ Rectangle {
                             onRevealEmpty: { //how can we just call a "MouseArea Leftclick" here?
                                 if (stateGroup.state == ""){
                                     stateGroup.state = "LeftClickReveal"
+                                    textset(bombNeighbors);
                                     logic.incReveal();
                                     if(bombNeighbors == 0){
                                         neighborReveal(cell_x, cell_y);
@@ -86,6 +90,16 @@ Rectangle {
                     horizontalAlignment: Text.AlignHCenter
 
                 }
+
+
+
+                function textset(bombs){
+                    text_color = color_array[bombs];
+                    if(bombs == 0){text = "";}
+                    else{text = bombs;}
+
+                }
+
 
                 function reveal(){
                     mouseArea.revealEmpty();
@@ -116,6 +130,10 @@ Rectangle {
                             visible: true
                             text: bombNeighbors
                         }
+                        PropertyChanges{
+                            target: rect
+                            color: "white"
+                        }
                     },
                     State {
                         name: "LeftClickBomb"
@@ -125,6 +143,10 @@ Rectangle {
                             visible: true
                             text: "B"
                             color: "red"
+                        }
+                        PropertyChanges{
+                            target: rect
+                            color: "white"
                         }
                      },
                      State {
