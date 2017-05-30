@@ -62,8 +62,6 @@ signals:
     void gameSetup();
 
 private:
-    //unsigned nRows;
-    //unsigned maxCols;
     std::vector<bool> isBombArray;
     std::vector<unsigned> bombIndex;
     unsigned total_size;
