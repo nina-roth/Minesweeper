@@ -4,7 +4,8 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    //QApplication::instance()->setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication::instance()->setAttribute(Qt::AA_DontUseNativeMenuBar);
     QApplication app(argc, argv);
 
     qmlRegisterType<GameLogic>("my.extensions", 1, 0, "GameLogic");

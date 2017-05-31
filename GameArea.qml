@@ -17,10 +17,12 @@ Item {
     signal gridCellReveal
     signal gridFlagReveal
     property int rows
+    property int cols
 
     ButtonGrid{
         id: mygrid
         n_rows: rows
+        n_cols: cols
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
     }

@@ -1,7 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
-import Qt.labs.platform 1.0
 
 MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the SCREEN for Mac
         id: menu
@@ -10,21 +9,13 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
             MenuItem {
                 text: qsTr("New")
                 onTriggered: {
-                    console.log("New Game action triggered");
-                    //console.log(logic.gameState);
-                    //console.log(logic.value);
-                    //logic.setRows(9);
-                    //logic.setBombs(10);
-                    //console.log(logic.value);
-
                     logic.startGame();
-                    //console.log(logic.gameState);
                 }
             }
             MenuItem {
                 text: qsTr("Exit")
                 onTriggered: {
-                    console.log("Exit action triggered");
+                    //console.log("Exit action triggered");
                     Qt.quit();
                 }
             }
@@ -32,35 +23,47 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
         Menu {
               title: qsTr("&Difficulty")
               id: diffmenu
-              MenuItemGroup{
-                 id: diffGroup
-                 items: diffmenu.items
-              }
               MenuItem{
+                  id: easyItem
                   text: qsTr("Easy")
                   checkable: true
                   checked: true
                   onTriggered: {
-                    console.log("Difficulty action triggered");
-                    logic.setDifficulty( 9, 10 );
+                    //console.log("Difficulty action triggered");
+                    intermItem.checked = false
+                    hardItem.checked = false
+                    checked = true
+                    logic.setDifficulty( 9, 9, 10 );
                     logic.startGame();
                   }
               }
               MenuItem{
+                    id: intermItem
                     text: qsTr("Intermediate")
                     checkable: true
+                    checked: false
                     onTriggered: {
-                      console.log("Difficulty action triggered");
-                      logic.setDifficulty( 16, 40 );
+                      easyItem.checked = false
+                      hardItem.checked = false
+                      checked = true
+                      //console.log("Difficulty action triggered");
+                      logic.setDifficulty( 16, 16, 40 );
                       logic.startGame();
                     }
                }
                MenuItem{
+                    id: hardItem
                     text: qsTr("Hard")
                     checkable: true
+                    checked: false
                     onTriggered: {
-                        console.log("Difficulty action triggered");
-                        logic.setDifficulty( 16, 99 );
+                        easyItem.checked = false
+                        intermItem.checked = false
+                        checked = true
+                        root.width = 800 //hard-coded...
+                        root.height = 460 //hard-coded...
+                        //console.log("Difficulty action triggered");
+                        logic.setDifficulty( 16, 30, 99);
                         logic.startGame();
                     }
                 }
@@ -88,53 +91,3 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
             }
 
 }
-
-//Component{
-//   // id: thing
-////menuBar:
-////QQuickMenuBar{
-//    id: obj
-//MenuBar{ id: bar
-//QtObject{ id: obj
-//MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the SCREEN for Mac
-//        id: bar
-//        Menu {
-//            title: qsTr("Game")
-//            MenuItem {
-//                text: qsTr("&New")
-//                onTriggered: {
-//                    console.log("New Game action triggered");
-//                    console.log(logic.gameState);
-//                    //logic.setValue(4);
-//                    //console.log(logic.value);
-//                    logic.startGame();
-//                    //console.log(logic.value);
-//                    console.log(logic.gameState);
-//                }
-//            }
-//            MenuItem {
-//                text: qsTr("&Difficulty")
-//                onTriggered: {
-//                    console.log("Difficulty action triggered");
-//                    //Logc.setDifficulty();
-//                }
-//            }
-//            MenuItem {
-//                text: qsTr("&Show Highscores")
-//                onTriggered: {
-//                    console.log("Highscore action triggered");
-//                    //Logc.showHighscores();
-//                }
-//            }
-//            MenuItem {
-//                text: qsTr("Exit")
-
-//                onTriggered: {
-//                    console.log("Exit action triggered");
-//                    Qt.quit();
-//                }
-//            }
-//        }
-//}
-////}
-
