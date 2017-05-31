@@ -25,12 +25,12 @@ ApplicationWindow {
             area.enabled = false
         }
         onGameReset: {
-            console.log("Reset action triggered");
+            //console.log("Reset action triggered");
             area.gridReset();
             area.enabled = true
         }
         onGameSetup: {
-            console.log("Setup action triggered");
+            //console.log("Setup action triggered");
             area.gridSetup();
             area.enabled = true
         }
