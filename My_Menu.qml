@@ -1,7 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
-//import Qt.labs.platform 1.0 //for MenuItemGroup
 
 MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the SCREEN for Mac
         id: menu
@@ -10,15 +9,7 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
             MenuItem {
                 text: qsTr("New")
                 onTriggered: {
-                    //console.log("New Game action triggered");
-                    //console.log(logic.gameState);
-                    //console.log(logic.value);
-                    //logic.setRows(9);
-                    //logic.setBombs(10);
-                    //console.log(logic.value);
-
                     logic.startGame();
-                    //console.log(logic.gameState);
                 }
             }
             MenuItem {
@@ -32,33 +23,43 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
         Menu {
               title: qsTr("&Difficulty")
               id: diffmenu
-              //MenuItemGroup{
-              //   id: diffGroup
-              //   items: diffmenu.items
-              //}
               MenuItem{
+                  id: easyItem
                   text: qsTr("Easy")
-                  //checkable: true
-                  //checked: true
+                  checkable: true
+                  checked: true
                   onTriggered: {
                     //console.log("Difficulty action triggered");
+                    intermItem.checked = false
+                    hardItem.checked = false
+                    checked = true
                     logic.setDifficulty( 9, 10 );
                     logic.startGame();
                   }
               }
               MenuItem{
+                    id: intermItem
                     text: qsTr("Intermediate")
-                    //checkable: true
+                    checkable: true
+                    checked: false
                     onTriggered: {
+                      easyItem.checked = false
+                      hardItem.checked = false
+                      checked = true
                       //console.log("Difficulty action triggered");
                       logic.setDifficulty( 16, 40 );
                       logic.startGame();
                     }
                }
                MenuItem{
+                    id: hardItem
                     text: qsTr("Hard")
-                    //checkable: true
+                    checkable: true
+                    checked: false
                     onTriggered: {
+                        easyItem.checked = false
+                        intermItem.checked = false
+                        checked = true
                         //console.log("Difficulty action triggered");
                         logic.setDifficulty( 16, 99 );
                         logic.startGame();
