@@ -1,7 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
-import Qt.labs.platform 1.0
+//import Qt.labs.platform 1.0 //for menus
 import my.extensions 1.0
 
 ApplicationWindow {

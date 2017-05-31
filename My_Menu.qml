@@ -1,7 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
-import Qt.labs.platform 1.0
+//import Qt.labs.platform 1.0 //for MenuItemGroup
 
 MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the SCREEN for Mac
         id: menu
@@ -32,10 +32,10 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
         Menu {
               title: qsTr("&Difficulty")
               id: diffmenu
-              MenuItemGroup{
-                 id: diffGroup
-                 items: diffmenu.items
-              }
+              //MenuItemGroup{
+              //   id: diffGroup
+              //   items: diffmenu.items
+              //}
               MenuItem{
                   text: qsTr("Easy")
                   checkable: true

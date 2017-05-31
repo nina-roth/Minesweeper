@@ -7,10 +7,9 @@
 #include <assert.h>
 #include <set>
 
-
-//#include <QtCore/qobject.h>
 #include <QObject>
 #include <QMetaType>
+#include <QtQml>
 
 class GameLogic : public QObject
 {
