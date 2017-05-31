@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>MineButton.qml</file>
-        <file>MineButtonForm.ui.qml</file>
         <file>ButtonGrid.qml</file>
         <file>GameArea.qml</file>
         <file>My_Menu.qml</file>
