@@ -11,8 +11,20 @@ ApplicationWindow {
     height: width
     title: qsTr("Minesweeper")
 
+    GameButtons {
+        id: buttons
+        width: 0
+        anchors.left: parent.left
+        anchors.leftMargin: 0
+        anchors.top: parent.top
+        anchors.topMargin: 0
+        scale: 1
+        transformOrigin: Item.Center
+    }
+
     GameArea {
         id: area
+        anchors.topMargin: 37
         rows: logic.getNRows
         cols: logic.getNCols
     }

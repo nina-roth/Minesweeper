@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication::instance()->setAttribute(Qt::AA_EnableHighDpiScaling);
+    //QApplication::instance()->setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::instance()->setAttribute(Qt::AA_DontUseNativeMenuBar);
     QApplication app(argc, argv);
 
