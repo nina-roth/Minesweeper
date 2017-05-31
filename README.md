@@ -1,7 +1,7 @@
 # Minesweeper
-Minesweeper game in QT/QML
+Minesweeper game in QT/QML -- minimum version Qt 5.5
 
-The master branch requires Qt 5.8! If you have Qt 5.5 the "Qt_Version_5p5" branch should work!
+The master branch uses Menus for navigation (selecting difficulty etc), which have only been tested in OSX. If you have Ubuntu, the "Qt_Version_5p5" branch has buttons!
 
 To compile:
 
