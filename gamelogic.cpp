@@ -2,10 +2,9 @@
 
 GameLogic::GameLogic(QObject *parent) : QObject(parent){
     nRows = 9;
+    nCols = 9;
     nBombs = 10;
     gameStarted = false;
-    //total_size = nRows * nRows;
-    //nRevealed = 0;
     startGame();
 }
 
@@ -19,9 +18,18 @@ unsigned GameLogic::getNRows(){
     return nRows;
 }
 
+unsigned GameLogic::getNCols(){
+    return nCols;
+}
+
 void GameLogic::setRows(unsigned i){
     nRows = i;
     emit nRowsChanged(nRows);
+}
+
+void GameLogic::setCols(unsigned i){
+    nCols = i;
+    emit nColsChanged(nCols);
 }
 
 void GameLogic::setBombs(unsigned i){
@@ -30,12 +38,12 @@ void GameLogic::setBombs(unsigned i){
 }
 
 unsigned GameLogic::indexFromIJ(unsigned i, unsigned j){
-    return i * nRows + j;
+    return i * nCols + j;
 }
 
 unsigned GameLogic::bombNeighbors(unsigned index){ //can be simplified (by using ints)
-    unsigned i =  index / nRows;
-    unsigned j = index - (i * nRows);
+    unsigned i =  index / nCols;
+    unsigned j = index - (i * nCols);
 
     unsigned sum = 0;
     if (i == 0){ //left border
@@ -62,7 +70,7 @@ unsigned GameLogic::bombNeighbors(unsigned index){ //can be simplified (by using
 
 
     }
-    else if (i == nRows - 1){ //right border
+    else if (i == nCols - 1){ //right border
 
         if(j == 0){//top
 
@@ -153,9 +161,9 @@ void GameLogic::setup(){
     emit gameSetup();
 }
 
-std::string GameLogic::getColor(unsigned i){
-    return color_array[i];
-}
+//std::string GameLogic::getColor(unsigned i){
+//    return color_array[i];
+//}
 
 bool GameLogic::gameOver(){
     emit lost();
@@ -176,14 +184,15 @@ void GameLogic::victoryCheck(){
 
 void GameLogic::startGame(){
     nRevealed = 0;
-    total_size = nRows * nRows;
+    total_size = nRows * nCols;
     assignBombs();
     setup();
     gameStarted = true;
 }
 
-void GameLogic::setDifficulty(unsigned n, unsigned b){
+void GameLogic::setDifficulty(unsigned n, unsigned m, unsigned b){
     setRows(n);
+    setCols(m);
     setBombs(b);
 }
 

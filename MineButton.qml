@@ -136,6 +136,10 @@ Rectangle {
                 }
 
                 function cellSetup(index){
+//                    console.log(index);
+//                    console.log(cell_x);
+//                    console.log(cell_y);
+//                    console.log("---")
                     text = ""
                     stateGroup.state = ""
                     isBomb = logic.isBomb(index);

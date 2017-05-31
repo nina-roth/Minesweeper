@@ -14,6 +14,7 @@ ApplicationWindow {
     GameArea {
         id: area
         rows: logic.getNRows
+        cols: logic.getNCols
     }
 
     GameLogic {

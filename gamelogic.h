@@ -15,6 +15,7 @@ class GameLogic : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(unsigned getNRows READ getNRows WRITE setRows NOTIFY nRowsChanged) //all "value" things are examples only
+    Q_PROPERTY(unsigned getNCols READ getNCols WRITE setCols NOTIFY nColsChanged)
     Q_PROPERTY(bool gameState READ gameState WRITE setgameState NOTIFY gameStateChanged)
 
 public:
@@ -26,7 +27,9 @@ public:
     Q_INVOKABLE bool gameOver();
 
     Q_INVOKABLE unsigned getNRows();
+    Q_INVOKABLE unsigned getNCols();
     Q_INVOKABLE void setRows(unsigned i);
+    Q_INVOKABLE void setCols(unsigned i);
     Q_INVOKABLE void setBombs(unsigned i);
 
     bool gameState();
@@ -41,20 +44,22 @@ public:
     Q_INVOKABLE void startGame();
 
     unsigned nRows;
+    unsigned nCols;
     unsigned nBombs;
     unsigned nRevealed;
 
-    std::vector<std::string> color_array = std::vector<std::string> (9, "red");
-    Q_INVOKABLE std::string getColor(unsigned i);
+    //std::vector<std::string> color_array = std::vector<std::string> (9, "red");
+    //Q_INVOKABLE std::string getColor(unsigned i);
 
     void victoryCheck();
     Q_INVOKABLE void incReveal();
-    void createBlock();
+    //void createBlock();
     void getHighscores();
-    Q_INVOKABLE void setDifficulty(unsigned n, unsigned b);
+    Q_INVOKABLE void setDifficulty(unsigned n, unsigned m, unsigned b);
 
 signals:
     void nRowsChanged(unsigned);
+    void nColsChanged(unsigned);
     void nBombsChanged(unsigned);
     void gameStateChanged(bool);
     void won();

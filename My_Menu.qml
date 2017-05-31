@@ -33,7 +33,7 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                     intermItem.checked = false
                     hardItem.checked = false
                     checked = true
-                    logic.setDifficulty( 9, 10 );
+                    logic.setDifficulty( 9, 9, 10 );
                     logic.startGame();
                   }
               }
@@ -47,7 +47,7 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                       hardItem.checked = false
                       checked = true
                       //console.log("Difficulty action triggered");
-                      logic.setDifficulty( 16, 40 );
+                      logic.setDifficulty( 16, 16, 40 );
                       logic.startGame();
                     }
                }
@@ -60,8 +60,10 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                         easyItem.checked = false
                         intermItem.checked = false
                         checked = true
+                        root.width = 800 //hard-coded...
+                        root.height = 460 //hard-coded...
                         //console.log("Difficulty action triggered");
-                        logic.setDifficulty( 16, 99 );
+                        logic.setDifficulty( 16, 30, 99);
                         logic.startGame();
                     }
                 }
