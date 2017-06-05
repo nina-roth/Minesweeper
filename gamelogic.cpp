@@ -10,6 +10,19 @@ GameLogic::GameLogic(QObject *parent) : QObject(parent){
 
 GameLogic::~GameLogic(){}
 
+void GameLogic::startTimer(){
+    gameTime = time(NULL);
+}
+
+void GameLogic::setTime(int t){
+    gameTime = t;
+}
+
+int GameLogic::getTime(){
+    int lasted = int( time(NULL)-gameTime);
+    return lasted;
+}
+
 bool GameLogic::isBomb(int index){
     return isBombArray[index];
 }
@@ -188,6 +201,7 @@ void GameLogic::startGame(){
     assignBombs();
     setup();
     gameStarted = true;
+    startTimer(); //todo: start the time on first click
 }
 
 void GameLogic::setDifficulty(unsigned n, unsigned m, unsigned b){

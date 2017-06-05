@@ -14,9 +14,10 @@
 class GameLogic : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(unsigned getNRows READ getNRows WRITE setRows NOTIFY nRowsChanged) //all "value" things are examples only
+    Q_PROPERTY(unsigned getNRows READ getNRows WRITE setRows NOTIFY nRowsChanged)
     Q_PROPERTY(unsigned getNCols READ getNCols WRITE setCols NOTIFY nColsChanged)
-    Q_PROPERTY(bool gameState READ gameState WRITE setgameState NOTIFY gameStateChanged)
+    Q_PROPERTY(int getTime READ getTime WRITE setTime NOTIFY gameTimeChanged)
+    Q_PROPERTY(bool gameStarted READ gameState WRITE setgameState NOTIFY gameStateChanged)
 
 public:
     GameLogic(QObject *parent = 0);
@@ -26,13 +27,19 @@ public:
     Q_INVOKABLE void setup();
     Q_INVOKABLE bool gameOver();
 
+    Q_INVOKABLE void startTimer();
+    Q_INVOKABLE int getTime();
+    Q_INVOKABLE void setTime(int i);
+
     Q_INVOKABLE unsigned getNRows();
     Q_INVOKABLE unsigned getNCols();
     Q_INVOKABLE void setRows(unsigned i);
     Q_INVOKABLE void setCols(unsigned i);
     Q_INVOKABLE void setBombs(unsigned i);
 
-    bool gameState();
+
+    //bool gameState();
+    Q_INVOKABLE bool gameState();
     Q_INVOKABLE void setgameState(bool i);
 
     Q_INVOKABLE void assignBombs();
@@ -47,13 +54,10 @@ public:
     unsigned nCols;
     unsigned nBombs;
     unsigned nRevealed;
-
-    //std::vector<std::string> color_array = std::vector<std::string> (9, "red");
-    //Q_INVOKABLE std::string getColor(unsigned i);
+    int gameTime;
 
     void victoryCheck();
     Q_INVOKABLE void incReveal();
-    //void createBlock();
     void getHighscores();
     Q_INVOKABLE void setDifficulty(unsigned n, unsigned m, unsigned b);
 
@@ -62,6 +66,7 @@ signals:
     void nColsChanged(unsigned);
     void nBombsChanged(unsigned);
     void gameStateChanged(bool);
+    void gameTimeChanged(bool);
     void won();
     void lost();
     void gameReset();

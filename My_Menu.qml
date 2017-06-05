@@ -1,6 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
+import "highscore.js" as My_Hs
 
 MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the SCREEN for Mac
         id: menu
@@ -71,21 +72,45 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
         Menu {
             id: highScoreMenu
                 title: qsTr("&Highscores")
+
                 MenuItem{
                     text: qsTr("Show")
+                    checkable: false
                     onTriggered: {
                     console.log("Show Highscore action triggered");
-                    messageDialog.show("Not yet implemented :)")
-                    //logc.showHighscores();
+                    //messageDialog.show("Not yet implemented :)")
+                    My_Hs.getHighscores();
                     }
                 }
                 MenuItem{
                     text: qsTr("Reset")
+                    checkable: false
                     onTriggered: {
-                    console.log("Reset Highscore action triggered");
-                    //logic.testloop();
-                    messageDialog.show("Not yet implemented :)")
-                    //logc.resetHighscores();
+                        console.log("Reset Highscore action triggered");
+                        var d1 =  confirmationDialog.createObject(root)
+                        d1.text = "Reset all highscores?";
+                        d1.yes.connect(function(){
+                            My_Hs.resetHighscores();
+                            //console.info("accepted: " + text)
+                        })
+                        d1.no.connect(function(){
+                            //console.info("rejected: " + text)
+                        })
+                        d1.visible = true //this actually makes the Dialog pop up!
+                    }
+                }
+                MenuItem{
+                    text: qsTr("Add values")
+                    checkable: false
+                    onTriggered: {
+                    console.log("Save Highscore action triggered");
+                    //messageDialog.show("Not yet implemented :)")
+                    My_Hs.newMaxScore(1);
+                    My_Hs.saveHighscores("Nina", 10);
+                    My_Hs.saveHighscores("Nina2", 12);
+                    My_Hs.saveHighscores("Nina3", 3);
+                    My_Hs.newMaxScore(2);
+                    My_Hs.newMaxScore(15);
                     }
                 }
             }
