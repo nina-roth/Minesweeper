@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 Rectangle {
                 id: rect
-                height: 50
+                //height: 50
                 width: height
                 border.color: "darkgrey"
                 border.width: 1
@@ -19,9 +19,11 @@ Rectangle {
                 property bool isBomb: false
                 property int bombNeighbors: 0
                 property variant color_array: ["black", "blue", "green", "red", "darkblue", "darkred", "cyan", "black", "grey"]
-                signal lclicked //needed?
-                signal rclicked //needed?
-                signal gameOver
+                //property alias gameStarted: mouseArea.
+                //signal lclicked //needed?
+                //signal rclicked //needed?
+                //signal gameOver
+                //property bool gameStarted
                 //signal gameWon
 
 //                onGameOver: { console.log("Game Over!")
@@ -37,8 +39,14 @@ Rectangle {
                             signal revealEmpty
                             signal revealBombs
                             signal revealFlags
+                            //property bool gameStarted: false
                             onClicked: {
                                 if (mouse.button == Qt.LeftButton){
+                                    if(grid.gs == false ){
+                                        grid.gs = true
+                                        logic.startTimer();
+                                        timer.running = true;
+                                    }
                                     if (stateGroup.state == ""){
                                         if(isBomb){
                                             stateGroup.state = "LeftClickBomb"

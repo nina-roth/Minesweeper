@@ -3,19 +3,22 @@ import my.extensions 1.0
 
 Item {
     id: gameCanvas
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.verticalCenter: parent.verticalCenter
+    //anchors.horizontalCenter: parent.horizontalCenter
+    //anchors.verticalCenter: parent.verticalCenter
     anchors.fill: parent
-    anchors.topMargin: 15
-    anchors.bottomMargin: 20
-    anchors.leftMargin: 15
-    anchors.rightMargin: 20
+    anchors.topMargin: 10
+    anchors.bottomMargin: 10
+    anchors.leftMargin: 10
+    anchors.rightMargin: 10
+
+    property alias gs: mygrid.gs
 
     signal gridReset
     signal gridSetup
     signal gridBombReveal
     signal gridCellReveal
     signal gridFlagReveal
+    signal newHighscore
     property int rows
     property int cols
 
@@ -32,5 +35,6 @@ Item {
     onGridBombReveal: mygrid.revealBombs();
     onGridCellReveal: mygrid.revealCells();
     onGridFlagReveal: mygrid.revealFlags();
+
 
 }

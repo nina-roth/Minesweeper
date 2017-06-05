@@ -44,7 +44,7 @@ public:
 
     //bool gameState();
     Q_INVOKABLE bool gameState();
-    Q_INVOKABLE void setgameState(bool i);
+    Q_INVOKABLE void setgameState(bool tf);
 
     Q_INVOKABLE void assignBombs();
     Q_INVOKABLE bool isBomb(int index);

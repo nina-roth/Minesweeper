@@ -4,7 +4,7 @@ import QtQuick.Dialogs 1.2
 
 
 Rectangle {
-                //width: 400; height: 400; color: "black"
+                width: root.width; height: root.height; //color: "black"
                 //property alias row_num: grid.rows
                 //property alias col_num: grid.columns
                 //property alias cell_height: rep.height
@@ -13,10 +13,17 @@ Rectangle {
                 property int n_rows
                 property int n_cols
                 property int cell_height: parent.height/n_rows
+                property alias gs: grid.gs
+
+                //signal onFirstClicked
+
+                //onFirstClicked: logic.startTimer();
 
                 Grid {
                     id: grid
+                    property bool gs: false
                     rows: n_rows; columns: n_cols; spacing: 0
+                    anchors.fill: parent
 
                     Repeater { id: rep
                                model: n_rows * n_cols
@@ -27,6 +34,7 @@ Rectangle {
                                             bombNeighbors: logic.bombNeighbors(cell_index)
                                             cell_y: index/n_cols
                                             cell_x: index - (cell_y * n_cols)
+                                            //onGameStartedChanged:
                                }
                     }
                 }

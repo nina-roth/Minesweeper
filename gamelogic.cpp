@@ -13,6 +13,7 @@ GameLogic::~GameLogic(){}
 
 void GameLogic::startTimer(){
     gameTime = time(NULL);
+    gameStarted = true;
 }
 
 void GameLogic::setTime(int t){
@@ -28,7 +29,8 @@ QString GameLogic::getDiff(){
 }
 
 int GameLogic::getTime(){
-    int lasted = int( time(NULL)-gameTime);
+    int lasted = 0;
+    if(gameStarted == true) {lasted = int( time(NULL)-gameTime);}
     return lasted;
 }
 
@@ -168,8 +170,8 @@ void GameLogic::assignBombs()
     for(auto &i: bombIndex){ isBombArray[i] = true;}
 }
 
-void GameLogic::setgameState(bool i){
-    gameStarted = i;
+void GameLogic::setgameState(bool tf){
+    gameStarted = tf;
     emit gameStateChanged(gameStarted);
 }
 
@@ -189,7 +191,7 @@ void GameLogic::setup(){
 
 bool GameLogic::gameOver(){
     emit lost();
-    gameStarted = false;
+    //gameStarted = false;
     return true;
 }
 
@@ -209,8 +211,8 @@ void GameLogic::startGame(){
     total_size = nRows * nCols;
     assignBombs();
     setup();
-    gameStarted = true;
-    startTimer(); //todo: start the time on first click
+    //gameStarted = true;
+    //startTimer(); //todo: start the time on first click
 }
 
 void GameLogic::setDifficulty(unsigned n, unsigned m, unsigned b){

@@ -11,6 +11,8 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                 text: qsTr("New")
                 onTriggered: {
                     logic.startGame();
+                    area.gs = false;
+                    timer.running = true;
                 }
             }
             MenuItem {
@@ -34,9 +36,13 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                     intermItem.checked = false
                     hardItem.checked = false
                     checked = true
+                    root.width = 370 //hard-coded...
+                    root.height = 400
                     logic.setDiff(text);
                     logic.setDifficulty( 9, 9, 10 );
                     logic.startGame();
+                    area.gs = false;
+                    timer.running = true;
                   }
               }
               MenuItem{
@@ -45,6 +51,8 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                     checkable: true
                     checked: false
                     onTriggered: {
+                      root.width = 375 //hard-coded...
+                      root.height = 400
                       easyItem.checked = false
                       hardItem.checked = false
                       checked = true
@@ -52,6 +60,8 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                       //console.log("Difficulty action triggered");
                       logic.setDifficulty( 16, 16, 40 );
                       logic.startGame();
+                      area.gs = false;
+                      timer.running = true;
                     }
                }
                MenuItem{
@@ -63,11 +73,13 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                         easyItem.checked = false
                         intermItem.checked = false
                         checked = true
-                        root.width = 800 //hard-coded...
+                        root.width = 730 //hard-coded...
                         root.height = 460 //hard-coded...
                         logic.setDiff(text);
                         logic.setDifficulty( 16, 30, 99);
                         logic.startGame();
+                        area.gs = false;
+                        timer.running = true;
                     }
                 }
             }
@@ -79,11 +91,20 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                     text: qsTr("Show")
                     checkable: false
                     onTriggered: {
-                    //console.log("Show Highscore action triggered");
-                    My_Hs.getHighscores(logic.getDiff);
-                    //My_Hs.getHighscores('Easy');
-                    //My_Hs.getHighscores('Intermediate');
-                    //My_Hs.getHighscores('Hard');
+                        //console.log("Show Highscore action triggered");
+
+                        displayScores();
+                        //My_Hs.getHighscores('Easy');
+                        //My_Hs.getHighscores('Intermediate');
+                        //My_Hs.getHighscores('Hard');
+                    }
+                    function displayScores(){
+                        //My_Hs.getHighscores("Easy");
+                        //My_Hs.getHighscores(logic.getDiff);
+                        My_Hs.getallHighscores();
+                        var displayText = My_Hs.allScores;
+                        messageDialog.title = "Highscores";
+                        messageDialog.show(displayText);
                     }
                 }
                 MenuItem{
@@ -111,9 +132,9 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
 //                        //messageDialog.show("Not yet implemented :)")
 //                        //My_Hs.newMinTime(8);
 //                        //var diff = 'e';
-//                        My_Hs.saveHighscores('easy', 10);
-//                        My_Hs.saveHighscores('interm', 12);
-//                        My_Hs.saveHighscores('interm', 3);
+//                        My_Hs.saveHighscores('Easy', 10);
+//                        //My_Hs.saveHighscores('Intermediate', 12);
+//                        My_Hs.saveHighscores('Hard', 3);
 
 //                    }
 //                }
