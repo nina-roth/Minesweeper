@@ -18,6 +18,7 @@ class GameLogic : public QObject
     Q_PROPERTY(unsigned getNCols READ getNCols WRITE setCols NOTIFY nColsChanged)
     Q_PROPERTY(int getTime READ getTime WRITE setTime NOTIFY gameTimeChanged)
     Q_PROPERTY(bool gameStarted READ gameState WRITE setgameState NOTIFY gameStateChanged)
+    Q_PROPERTY(QString getDiff READ getDiff WRITE setDiff NOTIFY diffStateChanged)
 
 public:
     GameLogic(QObject *parent = 0);
@@ -37,6 +38,9 @@ public:
     Q_INVOKABLE void setCols(unsigned i);
     Q_INVOKABLE void setBombs(unsigned i);
 
+    Q_INVOKABLE void setDiff(QString s);
+    Q_INVOKABLE QString getDiff();
+
 
     //bool gameState();
     Q_INVOKABLE bool gameState();
@@ -55,6 +59,7 @@ public:
     unsigned nBombs;
     unsigned nRevealed;
     int gameTime;
+    QString diff;
 
     void victoryCheck();
     Q_INVOKABLE void incReveal();
@@ -67,6 +72,7 @@ signals:
     void nBombsChanged(unsigned);
     void gameStateChanged(bool);
     void gameTimeChanged(bool);
+    void diffStateChanged(bool);
     void won();
     void lost();
     void gameReset();

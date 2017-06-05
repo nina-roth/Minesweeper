@@ -2,62 +2,59 @@
 .import QtQuick.LocalStorage 2.0 as Sql
 
 var maxEntries = 5;
-var minTime = 0;
-var difficulty;
+//var minTimeEasy = 9999999;
 
 function db(){
     return Sql.LocalStorage.openDatabaseSync("MS", "2.0", "Minesweeper Highscores", 100);
 }
 
 function tableExists(tx){
-    tx.executeSql('CREATE TABLE IF NOT EXISTS Highscores(name TEXT, score INT)');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS Highscores(difficulty TEXT, time INT)');
 }
 
-function getHighscores() {
-    //var maxScore = 0;
+function getHighscores(diff) {
     db().transaction(
                 function(tx){
                     tableExists(tx);
-                    var ret = tx.executeSql('SELECT * FROM Highscores ORDER BY time');
+                    var ret = tx.executeSql('SELECT difficulty,time FROM Highscores WHERE difficulty =? ORDER BY time', [diff]);
                     var outp = ""
                     if (ret.rows.length > 0) {
-                        minTime = ret.rows.item(0).time;
-                        console.log("min: ", minTime);
                         //for (var i = 0; i < ret.rows.length; i++) {
                         for (var i = 0; i < ret.rows.length && i < maxEntries; i++) {
-                            outp += ret.rows.item(i).name + ", " + ret.rows.item(i).time + "\n"
+                            outp += ret.rows.item(i).difficulty + ", " + ret.rows.item(i).time + "\n"
                         }
                     }
-                    console.log("Highscore data:");
+                    //console.log("Highscore data:");
                     console.log(outp);
                 }
     )
-    //return maxScore;
 }
 
-function newMinTime(time){
-    if(time < minTime){
-        console.log("New high score!")
-        //messageDialog.show("New high score!"); //doesn't work
+function isNewHighscore(newTime, oldTime){
+
+    if(newTime <= oldTime){
+        console.log("New highscore!");
     }
-    saveHighscores("bla", time);
+
 }
 
-function saveHighscores(name, time) {
+function saveHighscores(diff, time) {
     db().transaction(
                 function(tx){
                     tableExists(tx);
-                    tx.executeSql('INSERT INTO Highscores VALUES(?, ?)', [ name, time ]);
-                    var ret = tx.executeSql('SELECT * FROM Highscores ORDER BY score DESC');
+                    //console.log(diff);
+                    //console.log(time);
+                    tx.executeSql('INSERT INTO Highscores VALUES(?, ?)', [ diff, time ]);
+                    var ret = tx.executeSql('SELECT difficulty,time FROM Highscores WHERE difficulty =? ORDER BY time', [diff]);
+                    isNewHighscore(time, ret.rows.item(0).time);
                     if (ret.rows.length > maxEntries){
-                        tx.executeSql("DELETE FROM HighScores WHERE time <= ?", [ret.rows.item(maxEntries).time]);
+                        tx.executeSql('DELETE FROM HighScores WHERE difficulty =? AND time > ?', [diff, ret.rows.item(maxEntries).time]);
                     }
                 }
     )
 }
 
 function resetHighscores() {
-    //confirmationDialog.show();
     db().transaction(
                 function(tx){
                     tableExists(tx);

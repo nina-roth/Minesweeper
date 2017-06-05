@@ -4,7 +4,6 @@ import QtQuick.Dialogs 1.2
 import my.extensions 1.0
 import "highscore.js" as My_Hs
 
-
 ApplicationWindow {
     id:root
     visible: true
@@ -25,8 +24,8 @@ ApplicationWindow {
             area.gridCellReveal();
             area.gridFlagReveal();
             area.enabled = false
-            console.log(logic.getTime);
-            My_Hs.saveHighscores('dummy', logic.getTime);
+            //console.log(logic.getDiff);
+            My_Hs.saveHighscores(logic.getDiff, logic.getTime);
         }
         onGameReset: {
             area.gridReset();

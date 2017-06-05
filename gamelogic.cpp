@@ -5,6 +5,7 @@ GameLogic::GameLogic(QObject *parent) : QObject(parent){
     nCols = 9;
     nBombs = 10;
     gameStarted = false;
+    diff = "Easy";
     startGame();
 }
 
@@ -16,6 +17,14 @@ void GameLogic::startTimer(){
 
 void GameLogic::setTime(int t){
     gameTime = t;
+}
+
+void GameLogic::setDiff(QString s){
+    diff=s;
+}
+
+QString GameLogic::getDiff(){
+    return diff;
 }
 
 int GameLogic::getTime(){

@@ -34,6 +34,7 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                     intermItem.checked = false
                     hardItem.checked = false
                     checked = true
+                    logic.setDiff(text);
                     logic.setDifficulty( 9, 9, 10 );
                     logic.startGame();
                   }
@@ -47,6 +48,7 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                       easyItem.checked = false
                       hardItem.checked = false
                       checked = true
+                      logic.setDiff(text);
                       //console.log("Difficulty action triggered");
                       logic.setDifficulty( 16, 16, 40 );
                       logic.startGame();
@@ -63,7 +65,7 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                         checked = true
                         root.width = 800 //hard-coded...
                         root.height = 460 //hard-coded...
-                        //console.log("Difficulty action triggered");
+                        logic.setDiff(text);
                         logic.setDifficulty( 16, 30, 99);
                         logic.startGame();
                     }
@@ -77,9 +79,11 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                     text: qsTr("Show")
                     checkable: false
                     onTriggered: {
-                    console.log("Show Highscore action triggered");
-                    //messageDialog.show("Not yet implemented :)")
-                    My_Hs.getHighscores();
+                    //console.log("Show Highscore action triggered");
+                    My_Hs.getHighscores(logic.getDiff);
+                    //My_Hs.getHighscores('Easy');
+                    //My_Hs.getHighscores('Intermediate');
+                    //My_Hs.getHighscores('Hard');
                     }
                 }
                 MenuItem{
@@ -99,20 +103,20 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                         d1.visible = true //this actually makes the Dialog pop up!
                     }
                 }
-                MenuItem{
-                    text: qsTr("Add values")
-                    checkable: false
-                    onTriggered: {
-                    console.log("Save Highscore action triggered");
-                    //messageDialog.show("Not yet implemented :)")
-                    My_Hs.newMaxScore(1);
-                    My_Hs.saveHighscores("Nina", 10);
-                    My_Hs.saveHighscores("Nina2", 12);
-                    My_Hs.saveHighscores("Nina3", 3);
-                    My_Hs.newMaxScore(2);
-                    My_Hs.newMaxScore(15);
-                    }
-                }
+//                MenuItem{
+//                    text: qsTr("Add values")
+//                    checkable: false
+//                    onTriggered: {
+//                        console.log("Save Highscore action triggered");
+//                        //messageDialog.show("Not yet implemented :)")
+//                        //My_Hs.newMinTime(8);
+//                        //var diff = 'e';
+//                        My_Hs.saveHighscores('easy', 10);
+//                        My_Hs.saveHighscores('interm', 12);
+//                        My_Hs.saveHighscores('interm', 3);
+
+//                    }
+//                }
             }
 
 }
