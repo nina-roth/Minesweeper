@@ -41,15 +41,16 @@ ApplicationWindow {
         }
     }
 
-    My_Menu {}
+    menuBar: My_Menu {}
 
     MessageDialog {
         id: messageDialog
-        title: qsTr("May I have your attention, please?")
+        title: qsTr("Minesweeper!")
 
         function show(caption) {
             messageDialog.text = caption;
             messageDialog.open();
+            message.title = title;
         }
     }
 }
