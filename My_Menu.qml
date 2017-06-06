@@ -12,7 +12,8 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                 onTriggered: {
                     logic.startGame();
                     area.gs = false;
-                    timer.running = true;
+                    timer.reset();
+                    //timer.running = true;
                 }
             }
             MenuItem {
@@ -39,7 +40,8 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                     logic.setDifficulty( 9, 9, 10 );
                     logic.startGame();
                     area.gs = false;
-                    timer.running = true;
+                    timer.reset();
+                    //timer.running = true;
                   }
               }
               MenuItem{
@@ -56,7 +58,8 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                       logic.setDifficulty( 16, 16, 40 );
                       logic.startGame();
                       area.gs = false;
-                      timer.running = true;
+                      timer.reset();
+                      //timer.running = true;
                     }
                }
                MenuItem{
@@ -73,7 +76,9 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                         logic.setDifficulty( 16, 30, 99);
                         logic.startGame();
                         area.gs = false;
-                        timer.running = true;
+                        //timer.running = false;
+                        timer.reset();
+                        //timer.running = true;
                     }
                 }
             }

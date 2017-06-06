@@ -29,10 +29,16 @@ ApplicationWindow {
                         Timer {
                             id: timer
                             interval: 500; running: true; repeat: true
-                            onTriggered: time.text = "Elapsed time: " + logic.getTime//Date().toString()
+                            onTriggered: timerText.text = "Elapsed time: " + logic.getTime//Date().toString()
+
+                            function reset(){
+                                running = false;
+                                timerText.text = "Elapsed time: 0";
+                            }
+
                         }
                         Text {
-                            id: time
+                            id: timerText
                             //text: "Hello"
                         }
 
