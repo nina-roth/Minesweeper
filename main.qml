@@ -9,42 +9,31 @@ ApplicationWindow {
     id:root
     visible: true
     width: 400
-    height: width
+    height: 400
     title: qsTr("Minesweeper")
 
     GameArea {
                 id: area
                 rows: logic.getNRows
                 cols: logic.getNCols
-                //property alias gs:
             }
 
 
+
     statusBar: StatusBar {
-        RowLayout {
-                    id: layout
-                    anchors.fill: parent
+        //RowLayout {
+          //          id: layout
+            //        anchors.fill: parent
 
                     Item {
-                        //anchors.fill: layout
-                        //anchors.top: parent.top
-                        //anchors.bottom: bottomBar.top
-                        //id: timeritem
-                        //anchors.left: parent.left
-                        //anchors.right: labelitem.left
-                        //width: 10
-                        //anchors { left: parent.left; verticalCenter: parent.verticalCenter; leftMargin: 11 }
-                        //anchors.
-                        //anchors.rightMargin: 20
                         Timer {
                             id: timer
-                            //anchors.fill: parent
                             interval: 500; running: true; repeat: true
                             onTriggered: time.text = "Elapsed time: " + logic.getTime//Date().toString()
                         }
                         Text {
                             id: time
-                            text: "Hello"
+                            //text: "Hello"
                         }
 
                     }
@@ -57,23 +46,21 @@ ApplicationWindow {
                     //Label { text: "Difficulty: " + logic.getDiff }
                     //Text { text: "Hello"}
                     //Text { text: "World"}
-                }
+               // }
 
     }
 
     GameLogic {
         id: logic
         onWon: {
-            //messageDialog.show("You've won!")
-            timer.running = false
             My_Hs.saveHighscores(logic.getDiff, logic.getTime);
             highscoretest();
+            timer.running = false
             logic.setgameState(false);
             area.gridCellReveal();
             area.gridFlagReveal();
             area.enabled = false
-            //console.log(logic.getTime);
-            //My_Hs
+
         }
         onGameReset: {
             area.gridReset();

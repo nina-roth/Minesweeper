@@ -2,11 +2,9 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 
-//MineButtonForm {
-
 Rectangle {
                 id: rect
-                //height: 50
+                height: 50
                 width: height
                 border.color: "darkgrey"
                 border.width: 1
@@ -19,27 +17,28 @@ Rectangle {
                 property bool isBomb: false
                 property int bombNeighbors: 0
                 property variant color_array: ["black", "blue", "green", "red", "darkblue", "darkred", "cyan", "black", "grey"]
-                //property alias gameStarted: mouseArea.
-                //signal lclicked //needed?
-                //signal rclicked //needed?
-                //signal gameOver
-                //property bool gameStarted
-                //signal gameWon
+                property int minHeight
+                property int maxHeight
 
-//                onGameOver: { console.log("Game Over!")
-//                              messageDialog.show("Game Over!")
-//                }
+                //onHeightChanged: { setHeight()  }
 
-//                onGameWon: { console.log("You've won!")
-//                              messageDialog.show("You've won!")
-//                }
+                function setHeight(){
+
+                    var dummy = 0;
+                    if(rect.height < minHeight ){//console.log("low:" + rect.height);
+                        dummy = minHeight; }
+                    else if(rect.height > maxHeight){//console.log("high: "+ rect.height);
+                        dummy = maxHeight; }
+                    else{dummy = rect.height; }
+                    rect.height = dummy;
+
+                }
 
                 MouseArea { id: mouseArea; anchors.fill: parent
                             acceptedButtons: Qt.LeftButton | Qt.RightButton
                             signal revealEmpty
                             signal revealBombs
                             signal revealFlags
-                            //property bool gameStarted: false
                             onClicked: {
                                 if (mouse.button == Qt.LeftButton){
                                     if(grid.gs == false ){

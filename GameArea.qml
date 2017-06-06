@@ -6,10 +6,10 @@ Item {
     //anchors.horizontalCenter: parent.horizontalCenter
     //anchors.verticalCenter: parent.verticalCenter
     anchors.fill: parent
-    anchors.topMargin: 10
-    anchors.bottomMargin: 10
-    anchors.leftMargin: 10
-    anchors.rightMargin: 10
+    anchors.topMargin: 13
+    anchors.bottomMargin: 15
+    anchors.leftMargin: 25
+    anchors.rightMargin: 25
 
     property alias gs: mygrid.gs
 

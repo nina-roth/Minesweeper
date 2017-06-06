@@ -4,20 +4,24 @@ import QtQuick.Dialogs 1.2
 
 
 Rectangle {
-                width: root.width; height: root.height; //color: "black"
-                //property alias row_num: grid.rows
-                //property alias col_num: grid.columns
-                //property alias cell_height: rep.height
+                //width: parent.width; height: parent.height; //color: "black"
                 anchors.fill: parent
 
                 property int n_rows
                 property int n_cols
                 property int cell_height: parent.height/n_rows
                 property alias gs: grid.gs
+                //width: cell_height * n_cols
+                //height: cell_height * n_rows
 
-                //signal onFirstClicked
-
-                //onFirstClicked: logic.startTimer();
+//                Component.onCompleted: {
+//                    //console.log("size: "+root.height +" " + parent.height + " " + cell_height + " " + cell_height * n_rows);
+//                    gameCanvas.height = cell_height * n_rows
+//                    gameCanvas.width = cell_height * n_cols
+//                    root.height = gameCanvas.height + 41
+//                    root.width = gameCanvas.width + 41
+//                    //console.log("size: "+root.height +" " + parent.height + " " + cell_height + " " + cell_height * n_rows);
+//                }
 
                 Grid {
                     id: grid
@@ -29,6 +33,8 @@ Rectangle {
                                model: n_rows * n_cols
                                MineButton { id: mb
                                             height: cell_height
+                                            minHeight: 20
+                                            maxHeight: 60
                                             cell_index: index
                                             isBomb: logic.isBomb(cell_index)
                                             bombNeighbors: logic.bombNeighbors(cell_index)

@@ -32,14 +32,10 @@ function getHighscores(diff) {
                     var ret = tx.executeSql('SELECT difficulty,time FROM Highscores WHERE difficulty =? ORDER BY time', [diff]);
                     textoutp = ""
                     if (ret.rows.length > 0) {
-                        //for (var i = 0; i < ret.rows.length; i++) {
                         for (var i = 0; i < ret.rows.length && i < maxEntries; i++) {
                             textoutp += ret.rows.item(i).difficulty + ": " + ret.rows.item(i).time + "\n"
-                            //textoutp += ret.rows.item(i).time + "\n"
                         }
                     }
-                    //console.log("Highscore data:");
-                    //console.log(textoutp);
                 }
     )
     return textoutp;
@@ -59,8 +55,6 @@ function saveHighscores(diff, time) {
     db().transaction(
                 function(tx){
                     tableExists(tx);
-                    //console.log(diff);
-                    //console.log(time);
                     tx.executeSql('INSERT INTO Highscores VALUES(?, ?)', [ diff, time ]);
                     var ret = tx.executeSql('SELECT difficulty,time FROM Highscores WHERE difficulty =? ORDER BY time', [diff]);
                     isNewHighscore(time, ret.rows.item(0).time);
