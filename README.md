@@ -8,4 +8,5 @@ To compile:
 1) Download or clone the repository
 2) In the repository type "qmake" -> this should create a Makefile
 3) Type "make" to create the application
-4) Run application (and avoid the mines!)
+4) Optional: type "make check" to run some simple tests
+5) Run application (and avoid the mines!)
