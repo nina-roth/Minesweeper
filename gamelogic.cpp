@@ -215,9 +215,9 @@ void GameLogic::startGame(){
     //startTimer(); //todo: start the time on first click
 }
 
-void GameLogic::setDifficulty(unsigned n, unsigned m, unsigned b){
-    setRows(n);
-    setCols(m);
+void GameLogic::setDifficulty(unsigned r, unsigned c, unsigned b){
+    setRows(r);
+    setCols(c);
     setBombs(b);
 }
 

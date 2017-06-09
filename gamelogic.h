@@ -64,7 +64,7 @@ public:
     void victoryCheck();
     Q_INVOKABLE void incReveal();
     void getHighscores();
-    Q_INVOKABLE void setDifficulty(unsigned n, unsigned m, unsigned b);
+    Q_INVOKABLE void setDifficulty(unsigned r, unsigned c, unsigned b);
 
 signals:
     void nRowsChanged(unsigned);
