@@ -3,7 +3,6 @@
 #include <QCoreApplication>
 #include "/Users/nroth/Projects/Qt_folder/Minesweeper/gamelogic.h"
 
-
 class Minesweeper_Test : public QObject
 {
     Q_OBJECT
