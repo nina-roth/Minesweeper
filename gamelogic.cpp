@@ -1,41 +1,16 @@
 #include "gamelogic.h"
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>
+#include <assert.h>
+#include <set>
 
 GameLogic::GameLogic(QObject *parent) : QObject(parent){
     nRows = 9;
     nCols = 9;
     nBombs = 10;
     gameStarted = false;
-    diff = "Easy";
+    diffString = "Easy";
     startGame();
-}
-
-GameLogic::~GameLogic(){}
-
-void GameLogic::startTimer(){
-    gameTime = time(NULL);
-    gameStarted = true;
-}
-
-void GameLogic::setTime(int t){
-    gameTime = t;
-}
-
-void GameLogic::setDiff(QString s){
-    diff=s;
-}
-
-QString GameLogic::getDiff(){
-    return diff;
-}
-
-int GameLogic::getTime(){
-    int lasted = 0;
-    if(gameStarted == true) {lasted = int( time(NULL)-gameTime);}
-    return lasted;
-}
-
-bool GameLogic::isBomb(int index){
-    return isBombArray[index];
 }
 
 unsigned GameLogic::getNRows(){
@@ -46,26 +21,45 @@ unsigned GameLogic::getNCols(){
     return nCols;
 }
 
-void GameLogic::setRows(unsigned i){
+void GameLogic::setNRows(const unsigned i){
     nRows = i;
     emit nRowsChanged(nRows);
 }
 
-void GameLogic::setCols(unsigned i){
+void GameLogic::setNCols(const unsigned i){
     nCols = i;
     emit nColsChanged(nCols);
 }
 
-void GameLogic::setBombs(unsigned i){
-    nBombs = i;
+unsigned GameLogic::getNBombs(){
+    return nBombs;
+}
+
+void GameLogic::setNBombs(const unsigned b){
+    nBombs=b;
     emit nBombsChanged(nBombs);
 }
 
-unsigned GameLogic::indexFromIJ(unsigned i, unsigned j){
-    return i * nCols + j;
+void GameLogic::startTimer(){
+    m_gameTime = time(NULL);
+    gameStarted = true;
 }
 
-unsigned GameLogic::bombNeighbors(unsigned index){ //can be simplified (by using ints)
+void GameLogic::setDiff(QString s){
+    diffString=s;
+}
+
+QString GameLogic::getDiff(){
+    return diffString;
+}
+
+int GameLogic::getGameTime(){
+    int lasted = 0;
+    if(gameStarted == true) {lasted = int( time(NULL)-m_gameTime);}
+    return lasted;
+}
+
+unsigned GameLogic::bombNeighbors(unsigned index){ //could be simplified (by using ints)
     unsigned i =  index / nCols;
     unsigned j = index - (i * nCols);
 
@@ -170,35 +164,20 @@ void GameLogic::assignBombs()
     for(auto &i: bombIndex){ isBombArray[i] = true;}
 }
 
-void GameLogic::setgameState(bool tf){
+void GameLogic::setGameState(bool tf){
     gameStarted = tf;
     emit gameStateChanged(gameStarted);
 }
 
-void GameLogic::reset(){
-    nRevealed = 0;
-    emit gameReset();
-}
-
-void GameLogic::setup(){
-    nRevealed = 0;
-    emit gameSetup();
-}
-
-//std::string GameLogic::getColor(unsigned i){
-//    return color_array[i];
+//void GameLogic::reset(){
+//    nRevealed = 0;
+//    emit gameReset();
 //}
 
-bool GameLogic::gameOver(){
-    emit lost();
-    //gameStarted = false;
-    return true;
-}
-
-void GameLogic::incReveal(){
-    nRevealed +=1;
-    victoryCheck();
-}
+//void GameLogic::setup(){
+//    nRevealed = 0;
+//    emit gameSetup();
+//}
 
 void GameLogic::victoryCheck(){
     if(nRevealed == total_size - nBombs ){
@@ -210,18 +189,18 @@ void GameLogic::startGame(){
     nRevealed = 0;
     total_size = nRows * nCols;
     assignBombs();
-    setup();
-    //gameStarted = true;
-    //startTimer(); //todo: start the time on first click
+    //setup();
+    emit gameSetup();
 }
 
-void GameLogic::setDifficulty(unsigned r, unsigned c, unsigned b){
-    setRows(r);
-    setCols(c);
-    setBombs(b);
+void GameLogic::setDifficulty(unsigned r, unsigned c, unsigned b, QString s){
+    setNRows(r); //use set so this propagates through the program!
+    setNCols(c);
+    setNBombs(b);
+    setDiff(s);
 }
 
 
-bool GameLogic::gameState(){
-    return gameStarted;
-}
+//bool GameLogic::gameState(){
+//    return gameStarted;
+//}

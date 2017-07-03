@@ -9,11 +9,11 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
             title: qsTr("Game")
             MenuItem {
                 text: qsTr("New")
+                shortcut: "Ctrl+N"
                 onTriggered: {
                     logic.startGame();
                     area.gs = false;
                     timer.reset();
-                    //timer.running = true;
                 }
             }
             MenuItem {
@@ -29,6 +29,7 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
               MenuItem{
                   id: easyItem
                   text: qsTr("Easy")
+                  shortcut: "Ctrl+E"
                   checkable: true
                   checked: true
                   onTriggered: {
@@ -36,17 +37,16 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                     hardItem.checked = false
                     checked = true
                     root.width = root.height
-                    logic.setDiff(text);
-                    logic.setDifficulty( 9, 9, 10 );
+                    logic.setDifficulty( 9, 9, 10, text);
                     logic.startGame();
                     area.gs = false;
                     timer.reset();
-                    //timer.running = true;
                   }
               }
               MenuItem{
                     id: intermItem
                     text: qsTr("Intermediate")
+                    shortcut: "Ctrl+I"
                     checkable: true
                     checked: false
                     onTriggered: {
@@ -54,17 +54,16 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                       easyItem.checked = false
                       hardItem.checked = false
                       checked = true
-                      logic.setDiff(text);
-                      logic.setDifficulty( 16, 16, 40 );
+                      logic.setDifficulty( 16, 16, 40, text);
                       logic.startGame();
                       area.gs = false;
                       timer.reset();
-                      //timer.running = true;
                     }
                }
                MenuItem{
                     id: hardItem
-                    text: qsTr("Hard")
+                    text: qsTr("Advanced")
+                    shortcut: "Ctrl+A"
                     checkable: true
                     checked: false
                     onTriggered: {
@@ -72,13 +71,10 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                         intermItem.checked = false
                         checked = true
                         root.width = root.height * 1.7
-                        logic.setDiff(text);
-                        logic.setDifficulty( 16, 30, 99);
+                        logic.setDifficulty( 16, 30, 99, text); //99
                         logic.startGame();
                         area.gs = false;
-                        //timer.running = false;
                         timer.reset();
-                        //timer.running = true;
                     }
                 }
             }
@@ -88,6 +84,7 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
 
                 MenuItem{
                     text: qsTr("Show")
+                    shortcut: "Ctrl+S"
                     checkable: false
                     onTriggered: {
                         displayScores();
@@ -101,10 +98,10 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                 }
                 MenuItem{
                     text: qsTr("Reset")
+                    shortcut: "Ctrl+R"
                     checkable: false
                     onTriggered: {
-                        console.log("Reset Highscore action triggered");
-                        var d1 =  confirmationDialog.createObject(root)
+                        var d1 = confirmationDialog.createObject(root)
                         d1.text = "Reset all highscores?";
                         d1.yes.connect(function(){
                             My_Hs.resetHighscores();

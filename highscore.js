@@ -6,7 +6,7 @@ var high = 0;
 var allScores;
 
 function db(){
-    return Sql.LocalStorage.openDatabaseSync("MS", "2.0", "Minesweeper Highscores", 100);
+    return Sql.LocalStorage.openDatabaseSync("Minesweeper", "2.0", "Minesweeper Highscores", 100);
 }
 
 function tableExists(tx){
@@ -16,10 +16,11 @@ function tableExists(tx){
 function getallHighscores(){
     var t1 = getHighscores('Easy');
     var t2 = getHighscores('Intermediate');
-    var t3 = getHighscores('Hard');
-    if(t1 || t2 || t3){
-        //allScores = "Easy: "+ t1 + "\n" + "Intermediate: "+ t2 + "\n" + "Hard: "+ t3;
-        allScores = t1 + "\n" + t2 + "\n" + t3;
+    var t3 = getHighscores('Advanced');
+    var t4 = getHighscores('Custom');
+    if(t1 || t2 || t3 || t4){
+        //allScores = "Easy: "+ t1 + "\n" + "Intermediate: "+ t2 + "\n" + "Advanced: "+ t3 + "Custom: " + t4;
+        allScores = t1 + "\n" + t2 + "\n" + t3 + "\n" + t4;
     }
     else{allScores = "No highscores yet!";}
 }
@@ -44,7 +45,6 @@ function getHighscores(diff) {
 function isNewHighscore(newTime, oldTime){
 
     if(newTime <= oldTime){
-        console.log("New highscore!");
         high = newTime;
     }
 

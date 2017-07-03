@@ -17,22 +17,6 @@ Rectangle {
                 property bool isBomb: false
                 property int bombNeighbors: 0
                 property variant color_array: ["black", "blue", "green", "red", "darkblue", "darkred", "cyan", "black", "grey"]
-                property int minHeight
-                property int maxHeight
-
-                //onHeightChanged: { setHeight()  }
-
-                function setHeight(){
-
-                    var dummy = 0;
-                    if(rect.height < minHeight ){//console.log("low:" + rect.height);
-                        dummy = minHeight; }
-                    else if(rect.height > maxHeight){//console.log("high: "+ rect.height);
-                        dummy = maxHeight; }
-                    else{dummy = rect.height; }
-                    rect.height = dummy;
-
-                }
 
                 MouseArea { id: mouseArea; anchors.fill: parent
                             acceptedButtons: Qt.LeftButton | Qt.RightButton
@@ -93,11 +77,8 @@ Rectangle {
                                 stateGroup.state = "LeftClickBomb"
                             }
 
-                            onRevealFlags: { //how can we just call a "MouseArea RightClick" here?
-                                if(stateGroup.state == ""){
-                                    stateGroup.state = "RightClick"
-                                }
-                                else {} //do nothing
+                            onRevealFlags: {
+                                    stateGroup.state = "Checkmark"
                             }
 
                 }
@@ -112,27 +93,24 @@ Rectangle {
 
                 }
 
-
-
-                function textset(bombs){
-                    text_color = color_array[bombs];
-                    if(bombs == 0){text = "";}
-                    else{text = bombs;}
-
+                function textset(nBombs){
+                    text_color = color_array[nBombs];
+                    if(nBombs == 0){text = "";}
+                    else{text = nBombs;}
                 }
 
 
                 function reveal(mode){
-                    if(mode == "Cell"){
+                    if(mode === "Cell"){
                         mouseArea.revealEmpty();
                     }
-                    else if (mode == "Bomb"){
+                    else if (mode === "Bomb"){
                         mouseArea.revealBombs();
                     }
-                    else if (mode == "Flag") {
+                    else if (mode === "Flag") {
                         mouseArea.revealFlags();
                     }
-                    else {} //do nothing
+                    else { } //do nothing
                 }
 
                 function cellReset(){
@@ -159,6 +137,7 @@ Rectangle {
                             target: text1
                             visible: true
                             text: bombNeighbors
+                            font.weight: 60
                         }
                         PropertyChanges{
                             target: rect
@@ -171,7 +150,7 @@ Rectangle {
                         PropertyChanges {
                             target: text1
                             visible: true
-                            text: "B"
+                            text: "\u2620"
                             color: "red"
                         }
                         PropertyChanges{
@@ -184,11 +163,20 @@ Rectangle {
 
                         PropertyChanges {
                             target: text1
-                            text: "F"
-                            color: "blue"
+                            text: "\u26F3"
                             visible: true
                         }
-                     }
+                     },
+                    State {
+                       name: "Checkmark"
+
+                       PropertyChanges {
+                           target: text1
+                           text: "\u2713"
+                           color: "green"
+                           visible: true
+                       }
+                    }
                 ]
               }
 

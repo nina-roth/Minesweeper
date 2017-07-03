@@ -3,8 +3,6 @@ import my.extensions 1.0
 
 Item {
     id: gameCanvas
-    //anchors.horizontalCenter: parent.horizontalCenter
-    //anchors.verticalCenter: parent.verticalCenter
     anchors.fill: parent
     anchors.topMargin: 13
     anchors.bottomMargin: 15
