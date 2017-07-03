@@ -14,22 +14,16 @@ ApplicationWindow {
 
     GameArea {
                 id: area
-                rows: logic.getNRows
-                cols: logic.getNCols
-            }
-
-
+                rows: logic.nRows
+                cols: logic.nCols
+             }
 
     statusBar: StatusBar {
-        //RowLayout {
-          //          id: layout
-            //        anchors.fill: parent
-
                     Item {
                         Timer {
                             id: timer
                             interval: 500; running: true; repeat: true
-                            onTriggered: timerText.text = "Elapsed time: " + logic.getTime//Date().toString()
+                            onTriggered: timerText.text = "Elapsed time: " + logic.gameTime
 
                             function reset(){
                                 running = false;
@@ -39,21 +33,20 @@ ApplicationWindow {
                         }
                         Text {
                             id: timerText
-                            //text: "Hello"
+                            x: 5
+                            text: ""
                         }
-
+                        Text {
+                            id: bombText
+                            x: area.x + area.width - 80
+                            text: "# of bombs: " + logic.nBombs
+                        }
+//                        Text {
+//                            id: flagText
+//                            x: 100
+//                            text: "# of flags set: " + logic.getFlags
+//                        }
                     }
-                    //Item{
-                      //  id: labelitem
-                        //anchors.left: layout.right
-                        //anchors { left: timeritem.right; verticalCenter: parent.verticalCenter; leftMargin: 0 }
-                        //Label { text: "Difficulty: " + logic.getDiff }
-                    //}
-                    //Label { text: "Difficulty: " + logic.getDiff }
-                    //Text { text: "Hello"}
-                    //Text { text: "World"}
-               // }
-
     }
 
     GameLogic {
@@ -62,11 +55,10 @@ ApplicationWindow {
             My_Hs.saveHighscores(logic.getDiff, logic.getTime);
             highscoretest();
             timer.running = false
-            logic.setgameState(false);
+            logic.setGameState(false);
             area.gridCellReveal();
             area.gridFlagReveal();
             area.enabled = false
-
         }
         onGameReset: {
             area.gridReset();
@@ -82,20 +74,9 @@ ApplicationWindow {
             area.enabled = false
         }
         function highscoretest(){
-            var tt = My_Hs.high;
-            if(tt != -1){
+            var maxScore = My_Hs.high;
+            if(maxScore != -1){
                   messageDialog.show("New Highscore!");
-//                var d1 =  confirmationDialog.createObject(root)
-//                d1.title = qsTr("New Highscore!");
-//                d1.text = "New Highscore! \n" + "Share to Twitter?";
-//                d1.yes.connect(function(){
-//                    //My_Hs.share();
-//                    console.info("accepted: " + logic.getTime)
-//                })
-//                d1.no.connect(function(){
-//                    console.info("rejected: " + d1.text)
-//                })
-//                d1.visible = true
             }
         }
     }
@@ -113,20 +94,18 @@ ApplicationWindow {
         }
     }
 
-
-
     Component{
         id: confirmationDialog
-
         MessageDialog {
             title: qsTr("Minesweeper")
             standardButtons: StandardButton.Yes | StandardButton.No
 
             function show() {
-                text = "Some text";
+                text = "";
                 open();
                 title = title;
             }
         }
     }
+
 }

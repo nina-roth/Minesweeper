@@ -13,6 +13,6 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     //to explicitely set the path where the (Highscore) database is stored:
-    engine.setOfflineStoragePath(QString("C:/Users/Nina/QT_Projects/Minesweeper"));
+    engine.setOfflineStoragePath(QString("/Users/nroth/Projects/Qt_folder/Minesweeper/"));
     return app.exec();
 }

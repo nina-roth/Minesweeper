@@ -2,10 +2,6 @@
 #define GAMELOGIC_H
 
 #include <iostream>
-#include <stdlib.h>     /* srand, rand */
-#include <time.h>
-#include <assert.h>
-#include <set>
 
 #include <QObject>
 #include <QMetaType>
@@ -14,57 +10,42 @@
 class GameLogic : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(unsigned getNRows READ getNRows WRITE setRows NOTIFY nRowsChanged)
-    Q_PROPERTY(unsigned getNCols READ getNCols WRITE setCols NOTIFY nColsChanged)
-    Q_PROPERTY(int getTime READ getTime WRITE setTime NOTIFY gameTimeChanged)
-    Q_PROPERTY(bool gameStarted READ gameState WRITE setgameState NOTIFY gameStateChanged)
+    Q_PROPERTY(unsigned nRows READ getNRows WRITE setNRows NOTIFY nRowsChanged)
+    Q_PROPERTY(unsigned nCols READ getNCols WRITE setNCols NOTIFY nColsChanged)
+    //Q_PROPERTY(unsigned nRows MEMBER m_nRows NOTIFY nRowsChanged)
+    Q_PROPERTY(unsigned nBombs READ getNBombs WRITE setNBombs NOTIFY nBombsChanged)
+    Q_PROPERTY(int gameTime READ getGameTime MEMBER m_gameTime NOTIFY gameTimeChanged)
+
+    Q_PROPERTY(bool gameStarted READ gameState WRITE setGameState NOTIFY gameStateChanged)
     Q_PROPERTY(QString getDiff READ getDiff WRITE setDiff NOTIFY diffStateChanged)
 
 public:
     GameLogic(QObject *parent = 0);
-    virtual ~GameLogic();
-
-    Q_INVOKABLE void reset();
-    Q_INVOKABLE void setup();
-    Q_INVOKABLE bool gameOver();
 
     Q_INVOKABLE void startTimer();
-    Q_INVOKABLE int getTime();
-    Q_INVOKABLE void setTime(int i);
+    Q_INVOKABLE int getGameTime();
+
+    Q_INVOKABLE unsigned getNBombs();
+    Q_INVOKABLE void setNBombs(const unsigned b);
+    Q_INVOKABLE bool isBomb(const int index){ return isBombArray[index]; }
+    Q_INVOKABLE unsigned bombNeighbors(unsigned index);
 
     Q_INVOKABLE unsigned getNRows();
+    Q_INVOKABLE void setNRows(const unsigned r);
+
     Q_INVOKABLE unsigned getNCols();
-    Q_INVOKABLE void setRows(unsigned i);
-    Q_INVOKABLE void setCols(unsigned i);
-    Q_INVOKABLE void setBombs(unsigned i);
+    Q_INVOKABLE void setNCols(const unsigned c);
 
     Q_INVOKABLE void setDiff(QString s);
     Q_INVOKABLE QString getDiff();
 
+    Q_INVOKABLE void setGameState(bool tf);
+    Q_INVOKABLE void gameOver(){emit lost();}
 
-    //bool gameState();
-    Q_INVOKABLE bool gameState();
-    Q_INVOKABLE void setgameState(bool tf);
-
-    Q_INVOKABLE void assignBombs();
-    Q_INVOKABLE bool isBomb(int index);
-    Q_INVOKABLE unsigned indexFromIJ(unsigned i, unsigned j);
-    Q_INVOKABLE unsigned bombNeighbors(unsigned index);
-
-    void cleanUp();
     Q_INVOKABLE void startGame();
+    Q_INVOKABLE void incReveal(){ nRevealed+=1; victoryCheck(); }
+    Q_INVOKABLE void setDifficulty(unsigned r, unsigned c, unsigned b, QString s = "Custom");
 
-    unsigned nRows;
-    unsigned nCols;
-    unsigned nBombs;
-    unsigned nRevealed;
-    int gameTime;
-    QString diff;
-
-    void victoryCheck();
-    Q_INVOKABLE void incReveal();
-    void getHighscores();
-    Q_INVOKABLE void setDifficulty(unsigned r, unsigned c, unsigned b);
 
 signals:
     void nRowsChanged(unsigned);
@@ -80,11 +61,29 @@ signals:
     void revealBombs();
     void revealCells();
 
+
 private:
     std::vector<bool> isBombArray;
     std::vector<unsigned> bombIndex;
     unsigned total_size;
+
     bool gameStarted;
+
+    unsigned nBombs;
+    unsigned nRows;
+    unsigned nCols;
+
+    int m_gameTime;
+    unsigned nRevealed;
+
+    QString diffString = "Custom";
+
+    void assignBombs();
+    unsigned indexFromIJ(const unsigned i, const unsigned j){ return i * nCols + j; }
+
+    bool gameState(){return gameStarted;}
+    void reset(){ nRevealed = 0; emit gameReset();}
+    void victoryCheck();
 };
 
 #endif // GAMELOGIC_H
