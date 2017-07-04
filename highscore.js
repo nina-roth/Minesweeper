@@ -26,20 +26,20 @@ function getallHighscores(){
 }
 
 function getHighscores(diff) {
-    var textoutp;
+    var textOutp;
     db().transaction(
                 function(tx){
                     tableExists(tx);
                     var ret = tx.executeSql('SELECT difficulty,time FROM Highscores WHERE difficulty =? ORDER BY time', [diff]);
-                    textoutp = ""
+                    textOutp = ""
                     if (ret.rows.length > 0) {
                         for (var i = 0; i < ret.rows.length && i < maxEntries; i++) {
-                            textoutp += ret.rows.item(i).difficulty + ": " + ret.rows.item(i).time + "\n"
+                            textOutp += ret.rows.item(i).difficulty + ": " + ret.rows.item(i).time + "\n"
                         }
                     }
                 }
     )
-    return textoutp;
+    return textOutp;
 }
 
 function isNewHighscore(newTime, oldTime){
@@ -51,8 +51,20 @@ function isNewHighscore(newTime, oldTime){
     else{high = -1;}
 }
 
+function validateInput(a, b){
+
+    var errorString = "Unexpected input to highscore database: " +a + " "+ b;
+
+    if ( (a === null || a === undefined ) || (b === null || b === undefined ) ){
+        throw errorString;
+    }
+
+}
+
 function saveHighscores(diff, time) {
-    db().transaction(
+    try {
+            validateInput(diff, time);
+            db().transaction(
                 function(tx){
                     tableExists(tx);
                     tx.executeSql('INSERT INTO Highscores VALUES(?, ?)', [ diff, time ]);
@@ -62,7 +74,11 @@ function saveHighscores(diff, time) {
                         tx.executeSql('DELETE FROM HighScores WHERE difficulty =? AND time > ?', [diff, ret.rows.item(maxEntries).time]);
                     }
                 }
-    )
+            )
+    }
+
+    catch(err){ console.error(err); }
+
 }
 
 function resetHighscores() {

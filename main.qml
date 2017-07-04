@@ -2,6 +2,7 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
+import QtQuick.Window 2.2
 import my.extensions 1.0
 import "highscore.js" as My_Hs
 
@@ -41,18 +42,13 @@ ApplicationWindow {
                             x: area.x + area.width - 80
                             text: "# of bombs: " + logic.nBombs
                         }
-//                        Text {
-//                            id: flagText
-//                            x: 100
-//                            text: "# of flags set: " + logic.getFlags
-//                        }
                     }
-    }
+               }
 
     GameLogic {
         id: logic
         onWon: {
-            My_Hs.saveHighscores(logic.getDiff, logic.getTime);
+            My_Hs.saveHighscores(logic.getDiff, logic.gameTime);
             highscoretest();
             timer.running = false
             logic.setGameState(false);
@@ -87,7 +83,12 @@ ApplicationWindow {
         id: messageDialog
         title: qsTr("Minesweeper!")
 
+        onButtonClicked: {
+            menuBar.enableMenus();
+        }
+
         function show(caption) {
+            menuBar.disableMenus();
             messageDialog.text = caption;
             messageDialog.open();
             messageDialog.title = title;
@@ -100,12 +101,19 @@ ApplicationWindow {
             title: qsTr("Minesweeper")
             standardButtons: StandardButton.Yes | StandardButton.No
 
+            onButtonClicked: {
+                menuBar.enableMenus(); //this works
+            }
+
             function show() {
+                //menuBar.disableMenus(); //no effect
                 text = "";
                 open();
                 title = title;
             }
         }
     }
+
+
 
 }

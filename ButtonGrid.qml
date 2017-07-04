@@ -43,7 +43,7 @@ Rectangle {
                 function revealBombs(){
                     for (var m = 0; m < n_cols; m++) {
                         for (var n = 0; n < n_rows; n++) {
-                            if(logic.isBomb(n*n_cols+m) == true){
+                            if(logic.isBomb(n*n_cols+m) === true){
                                 rep.itemAt(n*n_cols+m).reveal("Bomb");
                             }
                         }
@@ -53,7 +53,7 @@ Rectangle {
                 function revealCells(){
                     for (var m = 0; m < n_cols; m++) {
                         for (var n = 0; n < n_rows; n++) {
-                            if(logic.isBomb(n*n_cols+m) == false){
+                            if(logic.isBomb(n*n_cols+m) === false){
                                 rep.itemAt(n*n_cols+m).reveal("Cell");
                             }
                         }
@@ -63,7 +63,7 @@ Rectangle {
                 function revealFlags(){
                     for (var m = 0; m < n_cols; m++) {
                         for (var n = 0; n < n_rows; n++) {
-                            if(logic.isBomb(n*n_cols+m) == true){
+                            if(logic.isBomb(n*n_cols+m) === true){
                                 rep.itemAt(n*n_cols+m).reveal("Flag");
                             }
                         }

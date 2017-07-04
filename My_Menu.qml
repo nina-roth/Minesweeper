@@ -5,6 +5,29 @@ import "highscore.js" as My_Hs
 
 MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the SCREEN for Mac
         id: menu
+
+        signal menusEnable
+        signal menusDisable
+
+        onMenusEnable: {
+            enableMenus()
+        }
+
+        onMenusDisable: {
+            disableMenus()
+        }
+
+        function disableMenus(){
+            for(var i = 0; i < menu.menus.length; ++i){
+                menu.menus[i].enabled = false;
+            }
+        }
+        function enableMenus(){
+            for(var i = 0; i < menu.menus.length; ++i){
+                menu.menus[i].enabled = true;
+            }
+        }
+
         Menu { id: gameMenu
             title: qsTr("Game")
             MenuItem {
@@ -35,6 +58,7 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                   onTriggered: {
                     intermItem.checked = false
                     hardItem.checked = false
+                    custItem.checked = false
                     checked = true
                     root.width = root.height
                     logic.setDifficulty( 9, 9, 10, text);
@@ -53,6 +77,7 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                       root.width = root.height
                       easyItem.checked = false
                       hardItem.checked = false
+                      custItem.checked = false
                       checked = true
                       logic.setDifficulty( 16, 16, 40, text);
                       logic.startGame();
@@ -69,13 +94,33 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                     onTriggered: {
                         easyItem.checked = false
                         intermItem.checked = false
+                        custItem.checked = false
                         checked = true
                         root.width = root.height * 1.7
-                        logic.setDifficulty( 16, 30, 99, text); //99
+                        logic.setDifficulty( 16, 30, 99, text);
                         logic.startGame();
                         area.gs = false;
                         timer.reset();
                     }
+                }
+                MenuItem{
+                    id: custItem
+                    text: qsTr("Custom")
+                    shortcut: "Ctrl+C"
+                    checkable: true
+                    checked: false
+                    onTriggered: {
+                        easyItem.checked = false
+                        intermItem.checked = false
+                        hardItem.checked = false
+                        checked = true
+                        root.width = root.height * 1.7
+                        disableMenus();
+                        var component = Qt.createComponent("CustomGameSettings.qml");
+                        var window = component.createObject(root);
+                        window.visible = true;
+                    }
+
                 }
             }
         Menu {
@@ -101,6 +146,7 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                     shortcut: "Ctrl+R"
                     checkable: false
                     onTriggered: {
+                        disableMenus();
                         var d1 = confirmationDialog.createObject(root)
                         d1.text = "Reset all highscores?";
                         d1.yes.connect(function(){
@@ -111,5 +157,7 @@ MenuBar {//NB: this menu is not at the top of the WINDOW, but at the top of the 
                     }
                 }
             }
+
+
 
 }

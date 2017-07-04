@@ -6,5 +6,6 @@
         <file>GameArea.qml</file>
         <file>My_Menu.qml</file>
         <file>highscore.js</file>
+        <file>CustomGameSettings.qml</file>
     </qresource>
 </RCC>

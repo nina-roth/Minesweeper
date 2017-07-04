@@ -3,6 +3,7 @@
 #include <time.h>
 #include <assert.h>
 #include <set>
+#include <stdexcept>
 
 GameLogic::GameLogic(QObject *parent) : QObject(parent){
     nRows = 9;
@@ -13,29 +14,33 @@ GameLogic::GameLogic(QObject *parent) : QObject(parent){
     startGame();
 }
 
-unsigned GameLogic::getNRows(){
+int GameLogic::getNRows(){
     return nRows;
 }
 
-unsigned GameLogic::getNCols(){
+int GameLogic::getNCols(){
     return nCols;
 }
 
-void GameLogic::setNRows(const unsigned i){
-    nRows = i;
+void GameLogic::setNRows(const int r){
+    if(r < 3){throw std::runtime_error("# of rows must be >=3");}
+    nRows = r;
     emit nRowsChanged(nRows);
 }
 
-void GameLogic::setNCols(const unsigned i){
-    nCols = i;
+void GameLogic::setNCols(const int c){
+    if(c < 3){throw std::runtime_error("# of columns must be >=3");}
+    nCols = c;
     emit nColsChanged(nCols);
 }
 
-unsigned GameLogic::getNBombs(){
+int GameLogic::getNBombs(){
     return nBombs;
 }
 
-void GameLogic::setNBombs(const unsigned b){
+void GameLogic::setNBombs(const int b){
+    if(b <= 0){throw std::runtime_error("# of bombs must be >0");}
+    if(b >= nRows * nCols){throw std::runtime_error("# of bombs must be < total # of grid points");}
     nBombs=b;
     emit nBombsChanged(nBombs);
 }
@@ -59,125 +64,56 @@ int GameLogic::getGameTime(){
     return lasted;
 }
 
-unsigned GameLogic::bombNeighbors(unsigned index){ //could be simplified (by using ints)
-    unsigned i =  index / nCols;
-    unsigned j = index - (i * nCols);
+int GameLogic::bombNeighbors(const int index){
 
-    unsigned sum = 0;
-    if (i == 0){ //left border
+    const int y =  index / nCols;
+    const int x = index - (y * nCols);
 
-        if(j == 0){//top
+    const int min_i = std::max(x - 1, 0);
+    const int max_i = std::min(x + 2, nCols);
 
-            sum = ( isBombArray[indexFromIJ( i,  j + 1)] + isBombArray[indexFromIJ( i + 1,  j)]
-                    + isBombArray[indexFromIJ( i + 1,  j + 1)] );
+    const int min_j = std::max(y - 1, 0);
+    const int max_j = std::min(y + 2, nRows);
 
+    int sum = 0;
+
+    for(int i = min_i; i < max_i; i++){
+        for(int j = min_j; j < max_j; j++){
+            sum+= isBombArray[indexFromIJ( i, j)];
         }
-        else if (j == nRows - 1){//bottom
-
-            sum = ( isBombArray[indexFromIJ( i,  j - 1)] + isBombArray[indexFromIJ( i + 1,  j - 1)]
-                    + isBombArray[indexFromIJ( i + 1,  j)] );
-
-        }
-        else{//central in j
-
-            sum = ( isBombArray[indexFromIJ( i,  j - 1)] + isBombArray[indexFromIJ( i,  j + 1)]
-                    + isBombArray[indexFromIJ( i + 1 ,  j - 1 )] + isBombArray[indexFromIJ( i + 1 , j)]
-                    + isBombArray[indexFromIJ( i + 1 ,  j + 1 )] );
-
-        }
-
-
-    }
-    else if (i == nCols - 1){ //right border
-
-        if(j == 0){//top
-
-            sum = ( isBombArray[indexFromIJ( i - 1, j )] + isBombArray[indexFromIJ( i - 1, j + 1 )]
-                    + isBombArray[indexFromIJ( i, j + 1 )] );
-
-        }
-        else if (j == nRows - 1){//bottom
-
-            sum = ( isBombArray[indexFromIJ( i , j - 1 )] + isBombArray[indexFromIJ( i - 1, j - 1 )]
-                    + isBombArray[indexFromIJ( i- 1, j )] );
-
-        }
-        else{//central in j
-
-            sum = ( isBombArray[indexFromIJ( i, j + 1 )] + isBombArray[indexFromIJ(i, j - 1 )]
-                    + isBombArray[indexFromIJ( i - 1, j + 1 )] + isBombArray[indexFromIJ( i - 1, j )]
-                    + isBombArray[indexFromIJ( i - 1, j - 1 )] );
-
-        }
-
-
-    }
-    else{//central in i
-
-        if(j == 0){//top
-
-            sum = ( isBombArray[indexFromIJ( i - 1 , j )] + isBombArray[indexFromIJ( i - 1, j + 1 )]
-                    + isBombArray[indexFromIJ( i, j + 1 )] + isBombArray[indexFromIJ( i + 1, j )]
-                    + isBombArray[indexFromIJ( i + 1, j + 1 )]);
-
-        }
-        else if (j == nRows - 1){//bottom
-
-            sum = ( isBombArray[indexFromIJ( i - 1, j  )] + isBombArray[indexFromIJ( i - 1, j - 1 )]
-                    + isBombArray[indexFromIJ( i, j - 1 )] + isBombArray[indexFromIJ( i + 1, j )]
-                    + isBombArray[indexFromIJ( i + 1, j - 1 )]);
-
-        }
-        else{//central in i and j: all 9 cells - we don't subtract the central one because if it's a bomb we don't need that number anyway
-
-            for(unsigned ii = i - 1; ii < i + 2; ii++){
-                for(unsigned jj = j - 1; jj < j + 2; jj++){
-                    sum+= isBombArray[indexFromIJ( ii, jj )];
-                }
-            }
-
-            //sum -= isBombArray[index];
-
-        }
-
     }
 
     return sum;
+
 }
+
 
 void GameLogic::assignBombs()
 {
     srand(time(NULL));
-    unsigned in = 0, im = 0;
+    int in = 0, im = 0;
     isBombArray = std::vector<bool> (total_size, false);
     bombIndex.clear();
 
     for (in = 0; in < total_size && im < nBombs; ++in) {
-        unsigned rn = total_size - in;
-        unsigned rm = nBombs - im;
+        int rn = total_size - in;
+        int rm = nBombs - im;
         if ( rand() % rn < rm){ bombIndex.push_back(in); im++;}
     }
 
-    std::set<unsigned> s( bombIndex.begin(), bombIndex.end() );
-    assert(s.size() == nBombs); //assert uniqueness of random values
+    std::set<int> s( bombIndex.begin(), bombIndex.end() );
+    assert( int(s.size()) == nBombs); //assert uniqueness of random values
     //std::cout << "Sanity check! "<< s.size() << " should be equal to: "<< nBombs << std::endl;
-    for(auto &i: bombIndex){ isBombArray[i] = true;}
+    for(const auto &i: bombIndex){
+        isBombArray[i] = true;
+    }
 }
 
-void GameLogic::setGameState(bool tf){
+void GameLogic::setGameState(const bool tf){
     gameStarted = tf;
     emit gameStateChanged(gameStarted);
 }
 
-//void GameLogic::reset(){
-//    nRevealed = 0;
-//    emit gameReset();
-//}
-
-//void GameLogic::setup(){
-//    nRevealed = 0;
-//    emit gameSetup();
-//}
 
 void GameLogic::victoryCheck(){
     if(nRevealed == total_size - nBombs ){
@@ -189,18 +125,12 @@ void GameLogic::startGame(){
     nRevealed = 0;
     total_size = nRows * nCols;
     assignBombs();
-    //setup();
     emit gameSetup();
 }
 
-void GameLogic::setDifficulty(unsigned r, unsigned c, unsigned b, QString s){
+void GameLogic::setDifficulty(const int r, const int c, const int b, QString s){
     setNRows(r); //use set so this propagates through the program!
     setNCols(c);
     setNBombs(b);
     setDiff(s);
 }
-
-
-//bool GameLogic::gameState(){
-//    return gameStarted;
-//}
